@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [OHD]    Script Date: 21/10/2021 12:08:43 SA ******/
+/****** Object:  Database [OHD]    Script Date: 10/25/2021 8:17:47 PM ******/
 CREATE DATABASE [OHD]
 GO
 ALTER DATABASE [OHD] SET COMPATIBILITY_LEVEL = 150
@@ -54,7 +54,7 @@ ALTER DATABASE [OHD] SET READ_COMMITTED_SNAPSHOT OFF
 GO
 ALTER DATABASE [OHD] SET HONOR_BROKER_PRIORITY OFF 
 GO
-ALTER DATABASE [OHD] SET RECOVERY SIMPLE 
+ALTER DATABASE [OHD] SET RECOVERY FULL 
 GO
 ALTER DATABASE [OHD] SET  MULTI_USER 
 GO
@@ -68,13 +68,13 @@ ALTER DATABASE [OHD] SET TARGET_RECOVERY_TIME = 60 SECONDS
 GO
 ALTER DATABASE [OHD] SET DELAYED_DURABILITY = DISABLED 
 GO
-ALTER DATABASE [OHD] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+EXEC sys.sp_db_vardecimal_storage_format N'OHD', N'ON'
 GO
 ALTER DATABASE [OHD] SET QUERY_STORE = OFF
 GO
 USE [OHD]
 GO
-/****** Object:  Table [dbo].[account]    Script Date: 21/10/2021 12:08:43 SA ******/
+/****** Object:  Table [dbo].[account]    Script Date: 10/25/2021 8:17:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -86,31 +86,30 @@ CREATE TABLE [dbo].[account](
 	[username] [varchar](255) NULL,
 	[password] [varchar](255) NULL,
 	[role_id] [int] NULL,
-	[token] [varchar](255) NULL,
 	[status] [bit] NULL,
-PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK__account__3213E83F74F9BBA9] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[category]    Script Date: 21/10/2021 12:08:43 SA ******/
+/****** Object:  Table [dbo].[facility]    Script Date: 10/25/2021 8:17:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[category](
+CREATE TABLE [dbo].[facility](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[name] [varchar](255) NULL,
-	[account_id] [int] NULL,
-	[description] [varchar](max) NULL,
-PRIMARY KEY CLUSTERED 
+	[head_account_id] [int] NULL,
+	[description] [text] NULL,
+ CONSTRAINT [PK__facility__3213E83F97CB6EB5] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[head_task]    Script Date: 21/10/2021 12:08:43 SA ******/
+/****** Object:  Table [dbo].[head_task]    Script Date: 10/25/2021 8:17:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -119,38 +118,39 @@ CREATE TABLE [dbo].[head_task](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[request_by_user_id] [int] NULL,
 	[head_task_status] [varchar](255) NULL,
-	[note] [varchar](max) NULL,
-	[start_date] [datetime2](0) NULL,
-	[end_date] [datetime2](0) NULL,
-PRIMARY KEY CLUSTERED 
+	[note] [text] NULL,
+	[start_date] [datetime] NULL,
+	[end_date] [datetime] NULL,
+	[head_account_id] [int] NULL,
+ CONSTRAINT [PK__head_tas__3213E83F0C83CCEB] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[request_by_user]    Script Date: 21/10/2021 12:08:43 SA ******/
+/****** Object:  Table [dbo].[request_by_user]    Script Date: 10/25/2021 8:17:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[request_by_user](
 	[id] [int] IDENTITY(1,1) NOT NULL,
-	[start_date] [datetime2](0) NULL,
-	[end_date] [datetime2](0) NULL,
+	[start_date] [datetime] NULL,
+	[end_date] [datetime] NULL,
 	[request_priority_id] [int] NULL,
 	[request_status_id] [int] NULL,
 	[description] [varchar](255) NULL,
-	[category_id] [int] NULL,
+	[facility_id] [int] NULL,
 	[account_id] [int] NULL,
 	[service_id] [int] NULL,
 	[reason_close_request] [varchar](255) NULL,
-PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK__request___3213E83F3F8975A9] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[request_priority]    Script Date: 21/10/2021 12:08:43 SA ******/
+/****** Object:  Table [dbo].[request_priority]    Script Date: 10/25/2021 8:17:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -158,13 +158,13 @@ GO
 CREATE TABLE [dbo].[request_priority](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[name] [varchar](255) NULL,
-PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK__request___3213E83F18C62229] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[request_status]    Script Date: 21/10/2021 12:08:43 SA ******/
+/****** Object:  Table [dbo].[request_status]    Script Date: 10/25/2021 8:17:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -172,13 +172,13 @@ GO
 CREATE TABLE [dbo].[request_status](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[name] [varchar](255) NULL,
-PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK__request___3213E83F79D1D2F8] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[role]    Script Date: 21/10/2021 12:08:43 SA ******/
+/****** Object:  Table [dbo].[role]    Script Date: 10/25/2021 8:17:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -186,13 +186,13 @@ GO
 CREATE TABLE [dbo].[role](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[name] [varchar](255) NULL,
-PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK__role__3213E83F6447DDF3] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[service]    Script Date: 21/10/2021 12:08:43 SA ******/
+/****** Object:  Table [dbo].[service]    Script Date: 10/25/2021 8:17:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -200,15 +200,15 @@ GO
 CREATE TABLE [dbo].[service](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[name] [varchar](255) NULL,
-	[category_id] [int] NULL,
-	[description] [varchar](max) NULL,
-PRIMARY KEY CLUSTERED 
+	[facility_id] [int] NULL,
+	[description] [text] NULL,
+ CONSTRAINT [PK__service__3213E83F6352E5BA] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[user_task]    Script Date: 21/10/2021 12:08:43 SA ******/
+/****** Object:  Table [dbo].[user_task]    Script Date: 10/25/2021 8:17:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -217,42 +217,81 @@ CREATE TABLE [dbo].[user_task](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[request_by_user_id] [int] NULL,
 	[user_task_status] [varchar](255) NULL,
-	[note] [varchar](max) NULL,
-	[start_date] [datetime2](0) NULL,
-	[end_date] [datetime2](0) NULL,
+	[note] [text] NULL,
+	[start_date] [datetime] NULL,
+	[end_date] [datetime] NULL,
 	[head_task_id] [int] NULL,
-PRIMARY KEY CLUSTERED 
+	[user_account_id] [int] NULL,
+ CONSTRAINT [PK__user_tas__3213E83FF0BCBF14] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[account]  WITH CHECK ADD FOREIGN KEY([role_id])
+ALTER TABLE [dbo].[account]  WITH CHECK ADD  CONSTRAINT [FK__account__role_id__398D8EEE] FOREIGN KEY([role_id])
 REFERENCES [dbo].[role] ([id])
 GO
-ALTER TABLE [dbo].[head_task]  WITH CHECK ADD FOREIGN KEY([request_by_user_id])
-REFERENCES [dbo].[request_by_user] ([id])
+ALTER TABLE [dbo].[account] CHECK CONSTRAINT [FK__account__role_id__398D8EEE]
 GO
-ALTER TABLE [dbo].[request_by_user]  WITH CHECK ADD FOREIGN KEY([account_id])
+ALTER TABLE [dbo].[facility]  WITH CHECK ADD  CONSTRAINT [FK_facility_account] FOREIGN KEY([head_account_id])
 REFERENCES [dbo].[account] ([id])
 GO
-ALTER TABLE [dbo].[request_by_user]  WITH CHECK ADD FOREIGN KEY([category_id])
-REFERENCES [dbo].[category] ([id])
+ALTER TABLE [dbo].[facility] CHECK CONSTRAINT [FK_facility_account]
 GO
-ALTER TABLE [dbo].[request_by_user]  WITH CHECK ADD FOREIGN KEY([request_status_id])
+ALTER TABLE [dbo].[head_task]  WITH CHECK ADD  CONSTRAINT [FK__head_task__head___3D5E1FD2] FOREIGN KEY([head_account_id])
+REFERENCES [dbo].[account] ([id])
+GO
+ALTER TABLE [dbo].[head_task] CHECK CONSTRAINT [FK__head_task__head___3D5E1FD2]
+GO
+ALTER TABLE [dbo].[head_task]  WITH CHECK ADD  CONSTRAINT [FK__head_task__reque__3A81B327] FOREIGN KEY([request_by_user_id])
+REFERENCES [dbo].[request_by_user] ([id])
+GO
+ALTER TABLE [dbo].[head_task] CHECK CONSTRAINT [FK__head_task__reque__3A81B327]
+GO
+ALTER TABLE [dbo].[request_by_user]  WITH CHECK ADD  CONSTRAINT [FK__request_b__accou__33D4B598] FOREIGN KEY([account_id])
+REFERENCES [dbo].[account] ([id])
+GO
+ALTER TABLE [dbo].[request_by_user] CHECK CONSTRAINT [FK__request_b__accou__33D4B598]
+GO
+ALTER TABLE [dbo].[request_by_user]  WITH CHECK ADD  CONSTRAINT [FK__request_b__facil__36B12243] FOREIGN KEY([facility_id])
+REFERENCES [dbo].[facility] ([id])
+GO
+ALTER TABLE [dbo].[request_by_user] CHECK CONSTRAINT [FK__request_b__facil__36B12243]
+GO
+ALTER TABLE [dbo].[request_by_user]  WITH CHECK ADD  CONSTRAINT [FK__request_b__reque__34C8D9D1] FOREIGN KEY([request_status_id])
 REFERENCES [dbo].[request_status] ([id])
 GO
-ALTER TABLE [dbo].[request_by_user]  WITH CHECK ADD FOREIGN KEY([request_priority_id])
+ALTER TABLE [dbo].[request_by_user] CHECK CONSTRAINT [FK__request_b__reque__34C8D9D1]
+GO
+ALTER TABLE [dbo].[request_by_user]  WITH CHECK ADD  CONSTRAINT [FK__request_b__reque__35BCFE0A] FOREIGN KEY([request_priority_id])
 REFERENCES [dbo].[request_priority] ([id])
 GO
-ALTER TABLE [dbo].[request_by_user]  WITH CHECK ADD FOREIGN KEY([service_id])
+ALTER TABLE [dbo].[request_by_user] CHECK CONSTRAINT [FK__request_b__reque__35BCFE0A]
+GO
+ALTER TABLE [dbo].[request_by_user]  WITH CHECK ADD  CONSTRAINT [FK__request_b__servi__37A5467C] FOREIGN KEY([service_id])
 REFERENCES [dbo].[service] ([id])
 GO
-ALTER TABLE [dbo].[user_task]  WITH CHECK ADD FOREIGN KEY([head_task_id])
+ALTER TABLE [dbo].[request_by_user] CHECK CONSTRAINT [FK__request_b__servi__37A5467C]
+GO
+ALTER TABLE [dbo].[service]  WITH CHECK ADD  CONSTRAINT [FK_service_facility] FOREIGN KEY([facility_id])
+REFERENCES [dbo].[facility] ([id])
+GO
+ALTER TABLE [dbo].[service] CHECK CONSTRAINT [FK_service_facility]
+GO
+ALTER TABLE [dbo].[user_task]  WITH CHECK ADD  CONSTRAINT [FK__user_task__head___38996AB5] FOREIGN KEY([head_task_id])
 REFERENCES [dbo].[head_task] ([id])
 GO
-ALTER TABLE [dbo].[user_task]  WITH CHECK ADD FOREIGN KEY([request_by_user_id])
+ALTER TABLE [dbo].[user_task] CHECK CONSTRAINT [FK__user_task__head___38996AB5]
+GO
+ALTER TABLE [dbo].[user_task]  WITH CHECK ADD  CONSTRAINT [FK__user_task__reque__3B75D760] FOREIGN KEY([request_by_user_id])
 REFERENCES [dbo].[request_by_user] ([id])
+GO
+ALTER TABLE [dbo].[user_task] CHECK CONSTRAINT [FK__user_task__reque__3B75D760]
+GO
+ALTER TABLE [dbo].[user_task]  WITH CHECK ADD  CONSTRAINT [FK__user_task__user___3C69FB99] FOREIGN KEY([user_account_id])
+REFERENCES [dbo].[account] ([id])
+GO
+ALTER TABLE [dbo].[user_task] CHECK CONSTRAINT [FK__user_task__user___3C69FB99]
 GO
 USE [master]
 GO
