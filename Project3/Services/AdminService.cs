@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Project3.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,5 +10,6 @@ namespace Project3.Services
     {
         dynamic listAccount(string username, int page, string name, string email, string role);
         dynamic listRole();
+        public dynamic addAccount(Account account);
     }
 }
