@@ -32,13 +32,13 @@ namespace Project3.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=.;Database=OHD;user id=sa;password=lamtiendat111");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-RLHEK61\\SQLEXPRESS;Database=OHD;user id=sa;password=123");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AI");
+            modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AS");
 
             modelBuilder.Entity<Account>(entity =>
             {
@@ -49,20 +49,17 @@ namespace Project3.Models
                 entity.Property(e => e.Email)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("email")
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                    .HasColumnName("email");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("name")
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                    .HasColumnName("name");
 
                 entity.Property(e => e.Password)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("password")
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                    .HasColumnName("password");
 
                 entity.Property(e => e.RoleId).HasColumnName("role_id");
 
@@ -71,8 +68,7 @@ namespace Project3.Models
                 entity.Property(e => e.Username)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("username")
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                    .HasColumnName("username");
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Accounts)
@@ -88,16 +84,14 @@ namespace Project3.Models
 
                 entity.Property(e => e.Description)
                     .HasColumnType("text")
-                    .HasColumnName("description")
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                    .HasColumnName("description");
 
                 entity.Property(e => e.HeadAccountId).HasColumnName("head_account_id");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("name")
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                    .HasColumnName("name");
 
                 entity.HasOne(d => d.HeadAccount)
                     .WithMany(p => p.Facilities)
@@ -120,13 +114,11 @@ namespace Project3.Models
                 entity.Property(e => e.HeadTaskStatus)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("head_task_status")
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                    .HasColumnName("head_task_status");
 
                 entity.Property(e => e.Note)
                     .HasColumnType("text")
-                    .HasColumnName("note")
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                    .HasColumnName("note");
 
                 entity.Property(e => e.RequestByUserId).HasColumnName("request_by_user_id");
 
@@ -156,8 +148,7 @@ namespace Project3.Models
                 entity.Property(e => e.Description)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("description")
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                    .HasColumnName("description");
 
                 entity.Property(e => e.EndDate)
                     .HasColumnType("datetime")
@@ -168,8 +159,7 @@ namespace Project3.Models
                 entity.Property(e => e.ReasonCloseRequest)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("reason_close_request")
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                    .HasColumnName("reason_close_request");
 
                 entity.Property(e => e.RequestPriorityId).HasColumnName("request_priority_id");
 
@@ -216,8 +206,7 @@ namespace Project3.Models
                 entity.Property(e => e.Name)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("name")
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                    .HasColumnName("name");
             });
 
             modelBuilder.Entity<RequestStatus>(entity =>
@@ -229,8 +218,7 @@ namespace Project3.Models
                 entity.Property(e => e.Name)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("name")
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                    .HasColumnName("name");
             });
 
             modelBuilder.Entity<Role>(entity =>
@@ -242,8 +230,7 @@ namespace Project3.Models
                 entity.Property(e => e.Name)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("name")
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                    .HasColumnName("name");
             });
 
             modelBuilder.Entity<Service>(entity =>
@@ -254,16 +241,14 @@ namespace Project3.Models
 
                 entity.Property(e => e.Description)
                     .HasColumnType("text")
-                    .HasColumnName("description")
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                    .HasColumnName("description");
 
                 entity.Property(e => e.FacilityId).HasColumnName("facility_id");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("name")
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                    .HasColumnName("name");
 
                 entity.HasOne(d => d.Facility)
                     .WithMany(p => p.Services)
@@ -285,8 +270,7 @@ namespace Project3.Models
 
                 entity.Property(e => e.Note)
                     .HasColumnType("text")
-                    .HasColumnName("note")
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                    .HasColumnName("note");
 
                 entity.Property(e => e.RequestByUserId).HasColumnName("request_by_user_id");
 
@@ -299,8 +283,7 @@ namespace Project3.Models
                 entity.Property(e => e.UserTaskStatus)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("user_task_status")
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                    .HasColumnName("user_task_status");
 
                 entity.HasOne(d => d.HeadTask)
                     .WithMany(p => p.UserTasks)
