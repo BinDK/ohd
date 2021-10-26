@@ -7,6 +7,6 @@ namespace Project3.Services
 {
    public interface AdminService
     {
-        dynamic listAccount(string key, int page, int roleId);
+        dynamic listAccount(string username, int page, string name, string email, string role);
     }
 }
