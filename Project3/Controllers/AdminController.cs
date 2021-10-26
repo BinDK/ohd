@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Project3.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,12 @@ namespace Project3
     [Route("api/admin")]
     public class AdminController : Controller
     {
+        private AdminService adminService;
+
+        public AdminController(AdminService adminService)
+        {
+            this.adminService = adminService;
+        }
 
         [HttpGet("list_account")]
         [Produces("application/json")]
@@ -19,6 +26,13 @@ namespace Project3
                 id = "1",
                 name="dat"
             }) ;
+        }
+
+        [HttpGet("list_role")]
+        [Produces("application/json")]
+        public IActionResult getRoles()
+        {
+            return Ok(adminService.listRole());
         }
 
     }
