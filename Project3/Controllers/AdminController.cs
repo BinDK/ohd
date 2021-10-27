@@ -17,7 +17,7 @@ namespace Project3
             this.adminService = adminService;
         }
 
-        [HttpGet("list_account")]
+        [HttpGet("/account/findall")]
         [Produces("application/json")]
         public IActionResult Index()
         {

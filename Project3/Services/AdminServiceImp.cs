@@ -16,17 +16,16 @@ namespace Project3.Services
             this.db = db;
         }
 
-        public dynamic listAccount(string username, int page, string name, string email, string role)
+        public dynamic listAccount()
         {
-            try
+            return db.Accounts.ToList().Select(x => new
             {
-         
-                    return null;
-            }
-            catch
-            {
-                return null;
-            }
+               id = x.Id,name= x.Name,
+email = x.Email,
+                username = x.Username,role = new {id = x.Role.Id,name = x.Role.Name},
+status = x.Status
+
+            });
         }
         
         public dynamic listRole()
