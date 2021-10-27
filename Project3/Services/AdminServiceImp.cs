@@ -28,10 +28,13 @@ namespace Project3.Services
                 return null;
             }
         }
-
+        
         public dynamic listRole()
         {
-            return db.Roles.ToList();
+            return db.Roles.ToList().Select(x => new
+            {
+                id = x.Id,name= x.Name
+            });
         }
 
         public dynamic addAccount(Account account)

@@ -28,7 +28,7 @@ namespace Project3
             }) ;
         }
 
-        [HttpGet("list_role")]
+        [HttpGet("role/findall")]
         [Produces("application/json")]
         public IActionResult getRoles()
         {
