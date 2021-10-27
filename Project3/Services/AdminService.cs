@@ -11,5 +11,8 @@ namespace Project3.Services
         dynamic listAccount();
         dynamic listRole();
         public dynamic addAccount(Account account);
+        public dynamic Finds(int id);
+        public void deleteAccount(int id);
+
     }
 }
