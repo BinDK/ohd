@@ -9,8 +9,10 @@ namespace Project3.Services
 {
     public class AdminServiceImp : AdminService
     {
+
         private IConfiguration conf;
         private DatabaseContext db;
+
         public AdminServiceImp(DatabaseContext db)
         {
             this.db = db;
@@ -26,8 +28,10 @@ namespace Project3.Services
                 username = x.Username,
                 role = new { id = x.Role.Id, name = x.Role.Name },
                 status = x.Status
+
             });
         }
+
 
         public dynamic listRole()
         {
@@ -68,6 +72,27 @@ namespace Project3.Services
             {
                 return null;
             }
+        }
+
+
+
+        public dynamic Finds(int id)
+        {
+            return db.Accounts.Select(a => new
+            {
+                id = a.Id,
+                name = a.Name,
+                email = a.Email,
+                user = a.Username,
+              
+                status = a.Status
+            });
+        }
+
+        public void deleteAccount(int id)
+        {
+            db.Accounts.Remove(db.Accounts.Find(id));
+            db.SaveChanges();
         }
     }
 }

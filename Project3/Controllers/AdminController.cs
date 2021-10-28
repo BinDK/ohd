@@ -31,6 +31,39 @@ namespace Project3
             return Ok(adminService.listRole());
         }
 
+        [Produces("application/json")]
+        [HttpGet("finds/{id}")]
+        public IActionResult Finds(int id)
+        {
+            try
+            {
+                return Ok(adminService.Finds(id));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+
+
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [HttpDelete("delete/{id}")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                adminService.deleteAccount(id);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+
         [HttpGet("account/find/{id}")]
         [Produces("application/json")]
         public IActionResult findAcount(int id)
@@ -46,6 +79,7 @@ namespace Project3
                 return BadRequest();
             }
         }
+
 
     }
 }
