@@ -94,5 +94,22 @@ namespace Project3.Services
             db.Accounts.Remove(db.Accounts.Find(id));
             db.SaveChanges();
         }
+
+        public dynamic updateAccount(Account ac)
+        {
+            try { 
+                IQueryable<Account> a = db.Accounts.Where(x => x.Id == ac.Id);
+                if (a == null)
+                    return false;
+     
+                db.Entry(ac).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Project3.Models;
 using Project3.Services;
 using System;
 using System.Collections.Generic;
@@ -80,6 +81,25 @@ namespace Project3
             }
         }
 
+        [HttpPut("account/update")]
+        [Produces("application/json")]
+        public IActionResult updateAcount([FromBody] Account ac)
+        {
+            try
+            {
+                ac.Status = true;
+                dynamic a = adminService.updateAccount(ac);
+                if (a == false) return BadRequest("Id of account not exists");
+                else if (a == null) return BadRequest();
+                return Ok(a);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
 
     }
+
 }

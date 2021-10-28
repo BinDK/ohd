@@ -28,5 +28,13 @@ namespace Project3.Models
         public virtual ICollection<HeadTask> HeadTasks { get; set; }
         public virtual ICollection<RequestByUser> RequestByUsers { get; set; }
         public virtual ICollection<UserTask> UserTasks { get; set; }
+
+        internal void setData(updateAccountRequest req)
+        {
+            this.Id = req.Id;
+            this.Name = req.Name;
+            this.Password = req.Password;
+            this.RoleId = req.Role_id;
+        }
     }
 }
