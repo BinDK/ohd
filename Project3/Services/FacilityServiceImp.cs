@@ -55,5 +55,28 @@ namespace Project3.Services
             db.Facilities.Remove(db.Facilities.Find(id));
             db.SaveChanges();
         }
+
+        public dynamic find(int id)
+        {
+            try
+            {
+                IQueryable<Facility> a = db.Facilities.Where(x => x.Id == id);
+                if (a.Sum(x=> x.Id) == 0)
+                    return null;
+
+                return a.Select(x => new
+                {
+                    id = x.Id,
+                    name = x.Name,
+                    description = x.Description,
+                    head = new { id = x.HeadAccount.Id, name = x.HeadAccount.Name }
+                });
+
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }

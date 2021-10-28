@@ -54,7 +54,7 @@ namespace Project3.Services
             try
             {
                 IQueryable <Account> a = db.Accounts.Where(x => x.Id == id);
-                if (a == null)
+                if (a.Sum(a=>a.Id) == 0)
                     return null;
 
                 return a.Select(x => new
@@ -99,9 +99,8 @@ namespace Project3.Services
         {
             try { 
                 IQueryable<Account> a = db.Accounts.Where(x => x.Id == ac.Id);
-                if (a == null)
+                if (a.Sum(a => a.Id) == 0)
                     return false;
-     
                 db.Entry(ac).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 db.SaveChanges();
                 return true;

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project3.Services;
+using System;
+using System.Diagnostics;
 
 namespace Project3.Controllers
 {
@@ -37,6 +39,24 @@ namespace Project3.Controllers
             {
                 facilityService.Delete(id);
                 return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("find/{id}")]
+        [Produces("application/json")]
+        public IActionResult findFacility(int id)
+        {
+            try
+            {
+                object head = facilityService.find(id);
+               
+                if (Object.ReferenceEquals(null, head))
+                    return BadRequest();
+                return Ok(head);
             }
             catch
             {

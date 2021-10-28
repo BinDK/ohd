@@ -72,8 +72,10 @@ namespace Project3
             try
             {
                 dynamic a = adminService.findAccount(id);
-                if(a == null) return BadRequest();
+                if (Object.ReferenceEquals(null, a)) 
+                    return BadRequest();
                 return Ok(a);
+
             }
             catch
             {
@@ -89,8 +91,10 @@ namespace Project3
             {
                 ac.Status = true;
                 dynamic a = adminService.updateAccount(ac);
-                if (a == false) return BadRequest("Id of account not exists");
-                else if (a == null) return BadRequest();
+                if (a == false) 
+                    return BadRequest("Id of account not exists");
+                else if (Object.ReferenceEquals(null, a)) 
+                    return BadRequest();
                 return Ok(a);
             }
             catch

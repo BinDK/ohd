@@ -32,6 +32,7 @@ namespace Project3
             services.AddDbContext<DatabaseContext>(option => option.UseLazyLoadingProxies().UseSqlServer(connectString));
         
             services.AddScoped<AdminService, AdminServiceImp>();
+            services.AddScoped<FacilityService, FacilityServiceImp>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
