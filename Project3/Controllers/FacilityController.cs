@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Project3.Models;
 using Project3.Services;
 using System;
 using System.Diagnostics;
@@ -57,6 +58,26 @@ namespace Project3.Controllers
                 if (Object.ReferenceEquals(null, head))
                     return BadRequest();
                 return Ok(head);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("update")]
+        [Produces("application/json")]
+        public IActionResult updateFacility([FromBody] Facility fa)
+        {
+            try
+            {
+                Debug.WriteLine(fa.HeadAccountId);
+                dynamic a = facilityService.update(fa);
+                if (a == false)
+                    return BadRequest("Id of facility not exists");
+                else if (Object.ReferenceEquals(null, a))
+                    return BadRequest();
+                return Ok(a);
             }
             catch
             {

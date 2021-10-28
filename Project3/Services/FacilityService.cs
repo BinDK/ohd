@@ -14,5 +14,6 @@ namespace Project3.Services
         public void Delete(int id);
         public dynamic FindAll();
         public dynamic find(int id);
+        dynamic update(Facility fa);
     }
 }

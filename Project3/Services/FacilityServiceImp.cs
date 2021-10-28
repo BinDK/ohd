@@ -78,5 +78,23 @@ namespace Project3.Services
                 return null;
             }
         }
+
+        public dynamic update(Facility fa)
+        {
+            try
+            {
+                IQueryable<Facility> a = db.Facilities.Where(x => x.Id == fa.Id);
+                if (a.Sum(x => x.Id) == 0)
+                    return false;
+
+                db.Entry(fa).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }
