@@ -17,15 +17,11 @@ namespace Project3
             this.adminService = adminService;
         }
 
-        [HttpGet("/account/findall")]
+        [HttpGet("account/findall")]
         [Produces("application/json")]
         public IActionResult Index()
         {
-            return Ok(new
-            {
-                id = "1",
-                name="dat"
-            }) ;
+            return Ok(adminService.listAccount());
         }
 
         [HttpGet("role/findall")]
@@ -33,6 +29,22 @@ namespace Project3
         public IActionResult getRoles()
         {
             return Ok(adminService.listRole());
+        }
+
+        [HttpGet("account/find/{id}")]
+        [Produces("application/json")]
+        public IActionResult findAcount(int id)
+        {
+            try
+            {
+                dynamic a = adminService.findAccount(id);
+                if(a == null) return BadRequest();
+                return Ok(a);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
     }

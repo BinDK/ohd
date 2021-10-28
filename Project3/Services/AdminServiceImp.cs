@@ -10,8 +10,8 @@ namespace Project3.Services
     public class AdminServiceImp : AdminService
     {
         private IConfiguration conf;
-       private DatabaseContext db;
-       public AdminServiceImp (DatabaseContext db)
+        private DatabaseContext db;
+        public AdminServiceImp(DatabaseContext db)
         {
             this.db = db;
         }
@@ -20,19 +20,21 @@ namespace Project3.Services
         {
             return db.Accounts.ToList().Select(x => new
             {
-               id = x.Id,name= x.Name,
-email = x.Email,
-                username = x.Username,role = new {id = x.Role.Id,name = x.Role.Name},
-status = x.Status
-
+                id = x.Id,
+                name = x.Name,
+                email = x.Email,
+                username = x.Username,
+                role = new { id = x.Role.Id, name = x.Role.Name },
+                status = x.Status
             });
         }
-        
+
         public dynamic listRole()
         {
             return db.Roles.ToList().Select(x => new
             {
-                id = x.Id,name= x.Name
+                id = x.Id,
+                name = x.Name
             });
         }
 
@@ -41,6 +43,31 @@ status = x.Status
             db.Accounts.Add(account);
             db.SaveChanges();
             return account;
+        }
+
+        public dynamic findAccount(int id)
+        {
+            try
+            {
+                IQueryable <Account> a = db.Accounts.Where(x => x.Id == id);
+                if (a == null)
+                    return null;
+
+                return a.Select(x => new
+                {
+                    id = x.Id,
+                    name = x.Name,
+                    email = x.Email,
+                    username = x.Username,
+                    role = new { id = x.Role.Id, name = x.Role.Name },
+                    status = x.Status
+                });
+
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }
