@@ -16,17 +16,21 @@ namespace Project3.Services
             this.db = db;
         }
 
-        public dynamic FindAll()
+ public dynamic FindAll()
         {
 
-            return db.Facilities.Select(p => new
+            return db.Facilities.ToList().Select(f => new
             {
-                id = p.Id,
-                name = p.Name,
-                headAccountId = p.HeadAccount,
-                description = p.Description,
-                headAccount = p.HeadAccount
-            }).ToList();
+                id = f.Id,
+                name = f.Name,
+                head = new
+                {
+                    id = f.HeadAccount.Id,
+                    name = f.HeadAccount.Name
+                },
+                description = f.Description
+              
+            });
         }
 
         public dynamic CreateFacility(Facility facility)
