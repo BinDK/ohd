@@ -44,10 +44,25 @@ namespace Project3.Services
 
         public dynamic addAccount(Account account)
         {
-            db.Accounts.Add(account);
-            db.SaveChanges();
-            return account;
+            if (Check(account.Username, account.Email ))
+            {
+                db.Accounts.Add(account);
+                db.SaveChanges();
+                return account;
+            } else
+            {
+                return null;
+            }
+            
         }
+
+
+        public dynamic Check(string username, string email)
+        {
+            return db.Accounts.Count(i => i.Username == username && i.Email == email) > 0;
+        }
+
+
 
         public dynamic findAccount(int id)
         {

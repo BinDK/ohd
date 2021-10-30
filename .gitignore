@@ -2,4 +2,4 @@
 Project3/obj/*
 Project3/Properties/*
 Project3/bin/*
-Project3/.gitignore
+Project3/appsettings.json
