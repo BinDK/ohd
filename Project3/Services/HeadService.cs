@@ -7,6 +7,6 @@ namespace Project3.Services
 {
     public interface HeadService
     {
-
+        public dynamic FindAll();
     }
 }

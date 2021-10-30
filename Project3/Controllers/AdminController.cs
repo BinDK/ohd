@@ -72,7 +72,7 @@ namespace Project3
             try
             {
                 dynamic a = adminService.findAccount(id);
-                if (Object.ReferenceEquals(null, a)) 
+                if (Object.ReferenceEquals(null, a))
                     return BadRequest();
                 return Ok(a);
 
@@ -91,9 +91,9 @@ namespace Project3
             {
                 ac.Status = true;
                 dynamic a = adminService.updateAccount(ac);
-                if (a == false) 
+                if (a == false)
                     return BadRequest("Id of account not exists");
-                else if (Object.ReferenceEquals(null, a)) 
+                else if (Object.ReferenceEquals(null, a))
                     return BadRequest();
                 return Ok(a);
             }
@@ -103,6 +103,23 @@ namespace Project3
             }
         }
 
+
+
+
+        [HttpGet("account/findall")]
+        [Produces("application/json")]
+        public IActionResult FindAllHead()
+        {
+            try
+            {
+                return Ok(adminService.FindAllHead());
+            }
+            catch
+            {
+                return BadRequest();
+            }
+
+        }
 
     }
 

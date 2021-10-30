@@ -16,5 +16,6 @@ namespace Project3.Services
         public void deleteAccount(int id);
         dynamic updateAccount(Account ac);
         public dynamic Check(string username, string email);
+        public dynamic FindAllHead();
     }
 }

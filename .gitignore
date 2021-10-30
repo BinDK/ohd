@@ -1,3 +1,8 @@
+.vs\*
+Project3\obj\*
+Project3/Properties/*
+Project3\bin\*
+Project3\appsettings.json
 .vs/*
 Project3/obj/*
 Project3/Properties/*

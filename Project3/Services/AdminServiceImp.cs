@@ -10,7 +10,7 @@ namespace Project3.Services
     public class AdminServiceImp : AdminService
     {
 
-        private IConfiguration conf;
+     
         private DatabaseContext db;
 
         public AdminServiceImp(DatabaseContext db)
@@ -46,12 +46,12 @@ namespace Project3.Services
         {
             if (Check(account.Username, account.Email ))
             {
+                return null;
+            } else
+            {
                 db.Accounts.Add(account);
                 db.SaveChanges();
                 return account;
-            } else
-            {
-                return null;
             }
             
         }
@@ -62,6 +62,15 @@ namespace Project3.Services
             return db.Accounts.Count(i => i.Username == username && i.Email == email) > 0;
         }
 
+        public dynamic FindAllHead()
+        {
+
+            return db.Accounts.Where(p => p.Id == 2).Select(f => new
+            {
+                id = f.Id,
+                name = f.Name,
+            }).ToList();
+        }
 
 
         public dynamic findAccount(int id)
