@@ -16,6 +16,25 @@ namespace Project3.Services
             this.db = db;
         }
 
+        public dynamic Create(Service service)
+        {
+            if (Check(service.Id, service.Name))
+            {
+                return null;
+            }
+            else
+            {
+                db.Services.Add(service);
+                db.SaveChanges();
+                return service;
+            }
+        }
+
+        public bool Check(int id, string name)
+        {
+            return db.Services.Count(c => c.FacilityId == id && c.Name == name) > 0;
+        }
+
         public void delete(int id)
         {
             db.Services.Remove(db.Services.Find(id));

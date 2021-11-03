@@ -15,5 +15,7 @@ namespace Project3.Services
         public dynamic FindAll();
         public dynamic find(int id);
         dynamic update(Facility fa);
+
+       bool NameCheck(string name);
     }
 }

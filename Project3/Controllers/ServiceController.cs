@@ -18,6 +18,24 @@ namespace Project3.Controllers
 
         [Consumes("application/json")]
         [Produces("application/json")]
+        [HttpPost("create")]
+        public IActionResult Create([FromBody] Service service)
+        {
+            try
+            {
+                return Ok(serviceService.Create(service));
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+
+
+
+        [Consumes("application/json")]
+        [Produces("application/json")]
         [HttpDelete("delete/{id}")]
         public IActionResult Delete(int id)
         {
@@ -31,6 +49,9 @@ namespace Project3.Controllers
                 return BadRequest();
             }
         }
+
+
+
 
 
         [HttpGet("find/{id}")]

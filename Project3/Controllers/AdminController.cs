@@ -13,32 +13,40 @@ namespace Project3
     {
         private AdminService adminService;
 
-        public AdminController(AdminService adminService)
+        public AdminController(AdminService _adminService)
         {
-            this.adminService = adminService;
+            this.adminService = _adminService;
         }
 
+        [Produces("application/json")]
         [HttpGet("account/findall")]
-        [Produces("application/json")]
-        public IActionResult Index()
+        public IActionResult FindAll()
         {
-            return Ok(adminService.listAccount());
+            try
+            {
+                return Ok(adminService.listAccount());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
-        [HttpGet("role/findall")]
         [Produces("application/json")]
+        [HttpGet("role/findall")]
         public IActionResult getRoles()
         {
             return Ok(adminService.listRole());
         }
 
         [Produces("application/json")]
-        [HttpGet("finds/{id}")]
+        [HttpGet("find/{id}")]
         public IActionResult Finds(int id)
         {
             try
             {
-                return Ok(adminService.Finds(id));
+                return Ok(adminService.findAccount(id));
             }
             catch
             {
@@ -47,6 +55,21 @@ namespace Project3
         }
 
 
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [HttpPost("account/create")]
+        public IActionResult Create([FromBody] Account account)
+        {
+            try
+            {
+                return Ok(adminService.addAccount(account));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return BadRequest();
+            }
+        }
 
         [Consumes("application/json")]
         [Produces("application/json")]
@@ -106,8 +129,8 @@ namespace Project3
 
 
 
-        [HttpGet("account/findall")]
         [Produces("application/json")]
+        [HttpGet("account/findallhead")]
         public IActionResult FindAllHead()
         {
             try

@@ -7,6 +7,9 @@ namespace Project3.Services
 {
     public class HeadServiceImpl : HeadService
     {
-
+        public dynamic FindAll()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

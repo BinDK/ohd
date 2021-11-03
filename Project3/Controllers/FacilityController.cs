@@ -65,6 +65,25 @@ namespace Project3.Controllers
             }
         }
 
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [HttpPost("create")]
+        public IActionResult Create([FromBody] Facility facility)
+        {
+            try
+            {
+                return Ok(facilityService.CreateFacility(facility));
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+
+
+
+
         [HttpPut("update")]
         [Produces("application/json")]
         public IActionResult updateFacility([FromBody] Facility fa)

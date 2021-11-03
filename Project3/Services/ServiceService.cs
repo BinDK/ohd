@@ -11,5 +11,9 @@ namespace Project3.Services
         void delete(int id);
         dynamic find(int id);
         dynamic update(Service ac);
+
+        dynamic Create(Service service);
+
+        bool Check(int id, string name);
     }
 }

@@ -10,7 +10,7 @@ namespace Project3.Services
     public class AdminServiceImp : AdminService
     {
 
-     
+
         private DatabaseContext db;
 
         public AdminServiceImp(DatabaseContext db)
@@ -20,16 +20,17 @@ namespace Project3.Services
 
         public dynamic listAccount()
         {
-            return db.Accounts.ToList().Select(x => new
+            return db.Accounts.Select(x => new
             {
                 id = x.Id,
                 name = x.Name,
                 email = x.Email,
                 username = x.Username,
-                role = new { id = x.Role.Id, name = x.Role.Name },
+                roleId = x.RoleId,
+                role = new { id = x.RoleId, name = x.Role.Name },
                 status = x.Status
 
-            });
+            }).ToList();
         }
 
 
@@ -44,16 +45,17 @@ namespace Project3.Services
 
         public dynamic addAccount(Account account)
         {
-            if (Check(account.Username, account.Email ))
+            if (Check(account.Username, account.Email))
             {
                 return null;
-            } else
+            }
+            else
             {
                 db.Accounts.Add(account);
                 db.SaveChanges();
                 return account;
             }
-            
+
         }
 
 
@@ -64,21 +66,19 @@ namespace Project3.Services
 
         public dynamic FindAllHead()
         {
-
-            return db.Accounts.Where(p => p.Id == 2).Select(f => new
+            return db.Accounts.Where(p => p.RoleId == 2).Select(f => new
             {
                 id = f.Id,
                 name = f.Name,
             }).ToList();
         }
 
-
         public dynamic findAccount(int id)
         {
             try
             {
-                IQueryable <Account> a = db.Accounts.Where(x => x.Id == id);
-                if (a.Sum(a=>a.Id) == 0)
+                IQueryable<Account> a = db.Accounts.Where(x => x.Id == id);
+                if (a.Sum(a => a.Id) == 0)
                     return null;
 
                 return a.Select(x => new
@@ -98,8 +98,6 @@ namespace Project3.Services
             }
         }
 
-
-
         public dynamic Finds(int id)
         {
             return db.Accounts.Select(a => new
@@ -108,9 +106,9 @@ namespace Project3.Services
                 name = a.Name,
                 email = a.Email,
                 user = a.Username,
-              
+                roleId = a.RoleId,
                 status = a.Status
-            });
+            }).SingleOrDefault(a => a.id == id);
         }
 
         public void deleteAccount(int id)
@@ -121,7 +119,8 @@ namespace Project3.Services
 
         public dynamic updateAccount(Account ac)
         {
-            try { 
+            try
+            {
                 IQueryable<Account> a = db.Accounts.Where(x => x.Id == ac.Id);
                 if (a.Sum(a => a.Id) == 0)
                     return false;

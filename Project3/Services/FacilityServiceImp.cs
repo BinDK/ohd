@@ -16,10 +16,10 @@ namespace Project3.Services
             this.db = db;
         }
 
- public dynamic FindAll()
+        public dynamic FindAll()
         {
 
-            return db.Facilities.ToList().Select(f => new
+            return db.Facilities.Select(f => new
             {
                 id = f.Id,
                 name = f.Name,
@@ -29,16 +29,30 @@ namespace Project3.Services
                     name = f.HeadAccount.Name
                 },
                 description = f.Description
-              
-            });
+
+            }).ToList();
         }
 
         public dynamic CreateFacility(Facility facility)
         {
-            db.Facilities.Add(facility);
-            db.SaveChanges();
-            return facility;
+            if (NameCheck(facility.Name))
+            {
+                return null;
+            }
+            else
+            {
+                db.Facilities.Add(facility);
+                db.SaveChanges();
+                return facility;
+            }
         }
+
+        public bool NameCheck(string name)
+        {
+            return db.Facilities.Count(f => f.Name == name) > 0;
+        }
+
+
 
 
         public dynamic Finds(int id)
@@ -65,7 +79,7 @@ namespace Project3.Services
             try
             {
                 IQueryable<Facility> a = db.Facilities.Where(x => x.Id == id);
-                if (a.Sum(x=> x.Id) == 0)
+                if (a.Sum(x => x.Id) == 0)
                     return null;
 
                 return a.Select(x => new

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Project3.Services
 {
-   public interface AdminService
+    public interface AdminService
     {
-        dynamic listAccount();
-        dynamic listRole();
+        public dynamic listAccount();
+        public dynamic listRole();
         public dynamic addAccount(Account account);
-        dynamic findAccount(int id);
+        public dynamic findAccount(int id);
         public dynamic Finds(int id);
         public void deleteAccount(int id);
         dynamic updateAccount(Account ac);
