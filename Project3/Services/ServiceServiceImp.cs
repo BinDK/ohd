@@ -68,6 +68,21 @@ namespace Project3.Services
             }
         }
 
+        public dynamic FindAll()
+        {
+            return db.Services.Select(x => new
+            {
+                id = x.Id,
+                name = x.Name,
+                facility = new
+                {
+                    id = x.Facility.Id,
+                    name = x.Facility.Name
+                },
+                description = x.Description
+            }).ToList();
+        }
+
         public dynamic update(Service ac)
         {
             try

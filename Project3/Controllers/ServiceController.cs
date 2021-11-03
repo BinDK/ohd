@@ -72,13 +72,28 @@ namespace Project3.Controllers
             }
         }
 
+        [HttpGet("findall")]
+        [Produces("application/json")]
+        public IActionResult FindAll()
+        {
+            try
+            {
+                return Ok(serviceService.FindAll());
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+
         [HttpPut("update")]
         [Produces("application/json")]
         public IActionResult update([FromBody] Service ac)
         {
             try
             {
-                    dynamic a = serviceService.update(ac);
+                dynamic a = serviceService.update(ac);
                 if (a == false)
                     return BadRequest("Id of account not exists");
                 else if (Object.ReferenceEquals(null, a))
