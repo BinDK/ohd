@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Project3.Controllers;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
@@ -23,5 +24,15 @@ namespace Project3.Models
         public virtual Account HeadAccount { get; set; }
         public virtual RequestByUser RequestByUser { get; set; }
         public virtual ICollection<UserTask> UserTasks { get; set; }
+
+        internal void addHeadTasks(createRequestByUserReq req, int id)
+        {
+            this.RequestByUserId = id;
+            this.HeadTaskStatus = "Ongoing";
+            this.Note = null;
+            this.StartDate = DateTime.Today;
+            this.EndDate = null;
+            this.HeadAccountId = req.Facility.HeadAccountId;
+        }
     }
 }

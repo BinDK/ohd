@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Project3.Controllers;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
@@ -31,5 +32,18 @@ namespace Project3.Models
         public virtual Service Service { get; set; }
         public virtual ICollection<HeadTask> HeadTasks { get; set; }
         public virtual ICollection<UserTask> UserTasks { get; set; }
+
+        internal void addRequestNew(createRequestByUserReq req)
+        {
+            this.StartDate = DateTime.Now;
+            this.EndDate = null;
+            this.RequestPriorityId = req.Request_priority_id;
+            this.RequestStatusId = req.Request_status_id;
+            this.Description = req.Content;
+            this.ServiceId = req.Service_id;
+            this.AccountId = req.Account_id;
+            this.FacilityId = req.Facility.Id;
+            this.ReasonCloseRequest = null;
+        }
     }
 }
