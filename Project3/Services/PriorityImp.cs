@@ -6,15 +6,5 @@ using System.Threading.Tasks;
 
 namespace Project3.Services
 {
-    public class PriorityImp : Priority
-
-
-    private DatabaseContext db;
-
-    {
-        public Priority CreatePriority()
-        {
-           
-        }
-    }
+    
 }

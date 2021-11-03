@@ -8,14 +8,14 @@ namespace Project3.Services
 {
     public interface ServiceService
     {
-        void delete(int id);
-        dynamic find(int id);
+        public void delete(int id);
+        public dynamic find(int id);
 
-        dynamic FindAll();
-        dynamic update(Service ac);
+        public dynamic FindAll();
+        public dynamic update(Service ac);
 
-        dynamic Create(Service service);
+        public dynamic Create(Service service);
 
-        bool Check(int id, string name);
+        public bool Check(int id, string name);
     }
 }

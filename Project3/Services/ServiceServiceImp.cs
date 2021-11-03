@@ -74,10 +74,8 @@ namespace Project3.Services
             {
                 id = x.Id,
                 name = x.Name,
-                facility = new
-                {
-                    id = x.Facility.Id,
-                    name = x.Facility.Name
+                facilityId = new { 
+                    x.FacilityId
                 },
                 description = x.Description
             }).ToList();
