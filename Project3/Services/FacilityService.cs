@@ -13,7 +13,7 @@ namespace Project3.Services
         public dynamic Finds(int id);
         public void Delete(int id);
         public dynamic FindAll();
-        public dynamic find(int id);
+      
         dynamic update(Facility fa);
 
        bool NameCheck(string name);

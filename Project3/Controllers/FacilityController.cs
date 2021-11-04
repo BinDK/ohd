@@ -53,7 +53,7 @@ namespace Project3.Controllers
         {
             try
             {
-                object head = facilityService.find(id);
+                object head = facilityService.Finds(id);
                
                 if (Object.ReferenceEquals(null, head))
                     return BadRequest();
@@ -79,10 +79,6 @@ namespace Project3.Controllers
                 return BadRequest();
             }
         }
-
-
-
-
 
         [HttpPut("update")]
         [Produces("application/json")]

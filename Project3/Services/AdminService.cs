@@ -14,7 +14,7 @@ namespace Project3.Services
         public dynamic findAccount(int id);
         public dynamic Finds(int id);
         public void deleteAccount(int id);
-        dynamic updateAccount(Account ac);
+        public dynamic updateAccount(Account ac);
         public dynamic Check(string username, string email);
         public dynamic FindAllHead();
     }

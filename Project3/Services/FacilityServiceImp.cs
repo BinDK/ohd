@@ -23,6 +23,7 @@ namespace Project3.Services
             {
                 id = f.Id,
                 name = f.Name,
+                headAccountId = f.HeadAccountId,
                 head = new
                 {
                     id = f.HeadAccount.Id,
@@ -55,18 +56,7 @@ namespace Project3.Services
 
 
 
-        public dynamic Finds(int id)
-        {
-            return db.Accounts.Select(a => new
-            {
-                id = a.Id,
-                name = a.Name,
-                email = a.Email,
-                user = a.Username,
-
-                status = a.Status
-            });
-        }
+      
 
         public void Delete(int id)
         {
@@ -74,7 +64,7 @@ namespace Project3.Services
             db.SaveChanges();
         }
 
-        public dynamic find(int id)
+        public dynamic Finds(int id)
         {
             try
             {
@@ -86,8 +76,13 @@ namespace Project3.Services
                 {
                     id = x.Id,
                     name = x.Name,
-                    description = x.Description,
-                    head = new { id = x.HeadAccount.Id, name = x.HeadAccount.Name }
+                    headAccountId = x.HeadAccountId,
+                    head = new
+                    {
+                        id = x.HeadAccount.Id,
+                        name = x.HeadAccount.Name
+                    },
+                    description = x.Description
                 });
 
             }

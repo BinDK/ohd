@@ -53,10 +53,11 @@ namespace Project3.Services
                 {
                     id = x.Id,
                     name = x.Name,
+                    facilityId = x.FacilityId,
                     facility = new
                     {
-                        id = x.Facility.Id,
-                        name = x.Facility.Name
+                        x.Facility.Id,
+                        x.Facility.Name
                     },
                     description = x.Description
                 });
@@ -74,8 +75,10 @@ namespace Project3.Services
             {
                 id = x.Id,
                 name = x.Name,
-                facilityId = new { 
-                    x.FacilityId
+                facilityId = x.FacilityId,
+                facility = new 
+                {
+                   x.Facility.Id,x.Facility.Name
                 },
                 description = x.Description
             }).ToList();
