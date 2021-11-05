@@ -101,5 +101,31 @@ namespace Project3.Services
                 return null;
             }
         }
+
+        public dynamic findBaseFacility(int idFaci)
+        {
+            try
+            {
+
+                return db.Services.Select(x => new
+                {
+                    id = x.Id,
+                    name = x.Name,
+                    facilityid = x.FacilityId,
+                    facility = new
+                    {
+                        id = x.Facility.Id,
+                        name = x.Facility.Name
+                    },
+                    description = x.Description
+                }).Where(x => x.facilityid == idFaci).ToList();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+
     }
 }

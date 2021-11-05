@@ -53,11 +53,7 @@ namespace Project3.Services
             return db.Facilities.Count(f => f.Name == name) > 0;
         }
 
-
-
-
-      
-
+     
         public void Delete(int id)
         {
             db.Facilities.Remove(db.Facilities.Find(id));

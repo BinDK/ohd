@@ -6,16 +6,18 @@ using System.Threading.Tasks;
 
 namespace Project3.Services
 {
-   public interface FacilityService
+    public interface FacilityService
     {
         public dynamic CreateFacility(Facility facility);
 
         public dynamic Finds(int id);
         public void Delete(int id);
         public dynamic FindAll();
-      
-        dynamic update(Facility fa);
 
-       bool NameCheck(string name);
+        public dynamic update(Facility fa);
+
+        public bool NameCheck(string name);
+
+       
     }
 }
