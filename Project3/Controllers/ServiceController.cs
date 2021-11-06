@@ -106,5 +106,23 @@ namespace Project3.Controllers
             }
         }
 
+        [HttpGet("findfacility/{id}")]
+        [Produces("application/json")]
+        public IActionResult findBaseFacility(int id)
+        {
+            try
+            {
+                dynamic a = serviceService.findBaseFacility(id);
+                if (Object.ReferenceEquals(null, a))
+                    return BadRequest();
+                return Ok(a);
+
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
     }
 }

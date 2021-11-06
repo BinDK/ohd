@@ -33,7 +33,7 @@ namespace Project3.Models
         public virtual ICollection<HeadTask> HeadTasks { get; set; }
         public virtual ICollection<UserTask> UserTasks { get; set; }
 
-        internal void addRequestNew(createRequestByUserReq req)
+     /*   internal void addRequestNew(createRequestByUserReq req)
         {
             this.StartDate = DateTime.Now;
             this.EndDate = null;
@@ -44,6 +44,6 @@ namespace Project3.Models
             this.AccountId = req.Account_id;
             this.FacilityId = req.Facility.Id;
             this.ReasonCloseRequest = null;
-        }
+        }*/
     }
 }

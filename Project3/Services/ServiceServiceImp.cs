@@ -53,10 +53,11 @@ namespace Project3.Services
                 {
                     id = x.Id,
                     name = x.Name,
+                    facilityId = x.FacilityId,
                     facility = new
                     {
-                        id = x.Facility.Id,
-                        name = x.Facility.Name
+                        x.Facility.Id,
+                        x.Facility.Name
                     },
                     description = x.Description
                 });
@@ -74,8 +75,10 @@ namespace Project3.Services
             {
                 id = x.Id,
                 name = x.Name,
-                facilityId = new { 
-                    x.FacilityId
+                facilityId = x.FacilityId,
+                facility = new 
+                {
+                   x.Facility.Id,x.Facility.Name
                 },
                 description = x.Description
             }).ToList();
@@ -98,5 +101,31 @@ namespace Project3.Services
                 return null;
             }
         }
+
+        public dynamic findBaseFacility(int idFaci)
+        {
+            try
+            {
+
+                return db.Services.Select(x => new
+                {
+                    id = x.Id,
+                    name = x.Name,
+                    facilityid = x.FacilityId,
+                    facility = new
+                    {
+                        id = x.Facility.Id,
+                        name = x.Facility.Name
+                    },
+                    description = x.Description
+                }).Where(x => x.facilityid == idFaci).ToList();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+
     }
 }

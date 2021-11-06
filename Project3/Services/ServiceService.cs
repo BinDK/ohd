@@ -17,5 +17,7 @@ namespace Project3.Services
         public dynamic Create(Service service);
 
         public bool Check(int id, string name);
+
+        public dynamic findBaseFacility(int idFaci);
     }
 }
