@@ -25,7 +25,7 @@ namespace Project3.Models
         public virtual RequestByUser RequestByUser { get; set; }
         public virtual ICollection<UserTask> UserTasks { get; set; }
 
-        /*internal void addHeadTasks(createRequestByUserReq req, int id)
+        internal void addHeadTasks(createRequestByUserReq req, int id)
         {
             this.RequestByUserId = id;
             this.HeadTaskStatus = "Ongoing";
@@ -33,6 +33,6 @@ namespace Project3.Models
             this.StartDate = DateTime.Today;
             this.EndDate = null;
             this.HeadAccountId = req.Facility.HeadAccountId;
-        }*/
+        }
     }
 }
