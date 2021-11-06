@@ -9,6 +9,6 @@ Project3/obj/*
 Project3/Properties/*
 Project3/bin/*
 Project3/appsettings.json
-Project3/*
+Project3\
 bin
 obj
