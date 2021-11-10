@@ -12,15 +12,18 @@ namespace Project3.Services
     public class MyRequestServiceImp : MyRequestService
     {
 
+        private IConfiguration conf;
 
+      
         private DatabaseContext db;
 
-        public MyRequestServiceImp(DatabaseContext db)
+        public MyRequestServiceImp(DatabaseContext db, IConfiguration _conf)
         {
             this.db = db;
+            this.conf = _conf;
         }
+    
 
- 
         public dynamic find(int id)
         {
             try
@@ -99,8 +102,17 @@ namespace Project3.Services
         {
             try
             {
-                RequestByUser requestByUser = this.addRequestByUser(req);
+                RequestByUser requestByUser = 
+                this.addRequestByUser(req);
                 this.addHeadTasks(req,requestByUser);
+                /*
+                 * Send Email for user create request 
+                 */
+                this.sendEmailToUser(req);
+                /*
+                 * Send Email for head of facility 
+                 * */
+                this.sendEmailToHead(req);
 
 
                 return true;
@@ -110,6 +122,36 @@ namespace Project3.Services
             {
                 return null;
             }
+        }
+
+        private void sendEmailToHead(createRequestByUserReq req)
+        {
+            Account head = db.Accounts.First(x => x.Id == req.Facility.HeadAccountId);
+            string subject = conf["gmail:subject"].ToString();
+            string body = conf["gmail:userCreateRequest"].ToString();
+            Utils.Utils.SendMail(
+                conf["gmail:username"].ToString(),
+                head.Email,
+                subject,
+                body,
+                conf["gmail:username"].ToString(),
+                conf["gmail:password"].ToString()
+                );
+        }
+
+        private void sendEmailToUser(createRequestByUserReq req)
+        {
+            Account user = db.Accounts.First(x => x.Id == req.Account_id);
+            string subject = conf["gmail:subject"].ToString();
+            string body = conf["gmail:userCreateRequest"].ToString();
+            Utils.Utils.SendMail(
+                conf["gmail:username"].ToString(),
+                user.Email,
+                subject,
+                body,
+                conf["gmail:username"].ToString(),
+                conf["gmail:password"].ToString()
+                );
         }
 
         private void addHeadTasks(createRequestByUserReq req, RequestByUser requestByUser)
