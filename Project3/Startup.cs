@@ -35,7 +35,8 @@ namespace Project3
             services.AddScoped<FacilityService, FacilityServiceImp>();
             services.AddScoped<ServiceService, ServiceServiceImp>();
             services.AddScoped<PriorityService, PriorityServiceImp>();
-            /* services.AddScoped<MyRequestService, MyRequestServiceImp>();*/
+            services.AddScoped<MyRequestService, MyRequestServiceImp>();
+            services.AddScoped<AccountService, AccountServiceImp>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
