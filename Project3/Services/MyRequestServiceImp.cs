@@ -113,7 +113,10 @@ namespace Project3.Services
                  * Send Email for head of facility 
                  * */
                 this.sendEmailToHead(req);
-
+                /*
+                 * Save log when create request
+                 */
+                this.addLogForReqLog(req, requestByUser);
 
                 return true;
 
@@ -122,6 +125,21 @@ namespace Project3.Services
             {
                 return null;
             }
+        }
+
+        private void addLogForReqLog(createRequestByUserReq req, RequestByUser requestByUser)
+        {
+            ReqLog reqLog = new ReqLog
+            {
+                UserAccountId = req.Account_id,
+                LogTime = DateTime.Now,
+                ReqContent = "Request’s created",
+                RequestByUserId = requestByUser.Id,
+                Status = true
+
+            };
+            this.db.ReqLogs.Add(reqLog);
+            this.db.SaveChanges();
         }
 
         private void sendEmailToHead(createRequestByUserReq req)
