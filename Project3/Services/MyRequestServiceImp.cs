@@ -188,5 +188,20 @@ namespace Project3.Services
             db.SaveChanges();
             return req1.Entity;
         }
+
+        public dynamic FindAllAssign()
+        {
+            return db.HeadTasks.Select(x => new
+            {
+                Id = x.Id,
+                RequestByUserId = x.RequestByUserId,
+                HeadTaskStatus = x.HeadTaskStatus,
+                Note = x.Note,
+                StartDate = x.StartDate,
+                EndDate = x.EndDate,
+                HeadAccountId = x.HeadAccountId
+                 
+    }).ToList();
+        }
     }
 }

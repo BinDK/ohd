@@ -28,7 +28,7 @@ namespace Project3.Models
         public virtual DbSet<Service> Services { get; set; }
         public virtual DbSet<UserTask> UserTasks { get; set; }
 
-    
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

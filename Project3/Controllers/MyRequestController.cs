@@ -83,7 +83,22 @@ namespace Project3.Controllers
             }
         }
 
+        [HttpGet("myassignment/findall")]
+        [Produces("application/json")]
+        public IActionResult FindAllLog()
+        {
+            try
+            {
+                return Ok(myRequestService.FindAllAssign());
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
     }
+
 
     public class createRequestByUserReq
     {
