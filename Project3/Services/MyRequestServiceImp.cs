@@ -135,7 +135,7 @@ namespace Project3.Services
                 LogTime = DateTime.Now,
                 ReqContent = "Request’s created",
                 RequestByUserId = requestByUser.Id,
-                Status = true
+                Status = "Created"
 
             };
             this.db.ReqLogs.Add(reqLog);

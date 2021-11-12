@@ -116,3 +116,4 @@ E:\ASP\Project3\Project3\obj\Debug\net5.0\Project3.dll
 E:\ASP\Project3\Project3\obj\Debug\net5.0\ref\Project3.dll
 E:\ASP\Project3\Project3\obj\Debug\net5.0\Project3.pdb
 E:\ASP\Project3\Project3\obj\Debug\net5.0\Project3.genruntimeconfig.cache
+E:\ASP\Project3\Project3\obj\Debug\net5.0\Project3.csproj.AssemblyReference.cache

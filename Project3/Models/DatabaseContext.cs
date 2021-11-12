@@ -28,7 +28,7 @@ namespace Project3.Models
         public virtual DbSet<Service> Services { get; set; }
         public virtual DbSet<UserTask> UserTasks { get; set; }
 
-     
+    
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -157,7 +157,10 @@ namespace Project3.Models
 
                 entity.Property(e => e.RequestByUserId).HasColumnName("request_by_user_id");
 
-                entity.Property(e => e.Status).HasColumnName("status");
+                entity.Property(e => e.Status)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("status");
 
                 entity.Property(e => e.UserAccountId).HasColumnName("user_account_id");
             });
