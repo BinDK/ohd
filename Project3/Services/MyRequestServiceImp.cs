@@ -113,7 +113,10 @@ namespace Project3.Services
                  * Send Email for head of facility 
                  * */
                 this.sendEmailToHead(req);
-
+                /*
+                 * Save log when create request
+                */
+                this.addLogForReqLog(req, requestByUser);
 
                 return true;
 
@@ -122,6 +125,21 @@ namespace Project3.Services
             {
                 return null;
             }
+        }
+
+        private void addLogForReqLog(createRequestByUserReq req, RequestByUser requestByUser)
+        {
+            ReqLog reqLog = new ReqLog
+            {
+                UserAccountId = req.Account_id,
+                LogTime = DateTime.Now,
+                ReqContent = "Request’s created",
+                RequestByUserId = requestByUser.Id,
+                Status = "Created"
+
+            };
+            this.db.ReqLogs.Add(reqLog);
+            this.db.SaveChanges();
         }
 
         private void sendEmailToHead(createRequestByUserReq req)
@@ -169,6 +187,53 @@ namespace Project3.Services
             EntityEntry <RequestByUser > req1 = db.RequestByUsers.Add(requestByUser);
             db.SaveChanges();
             return req1.Entity;
+        }
+
+        public dynamic FindAllAssign()
+        {
+            return db.HeadTasks.Select(x => new
+            {
+                Id = x.Id,
+                RequestByUserId = x.RequestByUserId,
+                HeadTaskStatus = x.HeadTaskStatus,
+                Note = x.Note,
+                StartDate = x.StartDate,
+                EndDate = x.EndDate,
+                HeadAccountId = x.HeadAccountId
+
+            }).ToList();
+        }
+
+
+        public dynamic FindHeadTask(int id)
+        {
+            try
+            {
+                IQueryable<HeadTask> a = db.HeadTasks.Where(x => x.RequestByUserId == id);
+                if (a.Sum(a => a.Id) == 0)
+                    return null;
+
+                return a.Select(x => new
+                {
+                    Id = x.Id,
+                    RequestByUserId = x.RequestByUserId,
+                    HeadTaskStatus = x.HeadTaskStatus,
+                    Note = x.Note,
+                    StartDate = x.StartDate,
+                    EndDate = x.EndDate,
+                    HeadAccount = new
+                    {
+                        Id = x.HeadAccount.Id,
+                        Name = x.HeadAccount.Name
+                    }
+
+                });
+
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

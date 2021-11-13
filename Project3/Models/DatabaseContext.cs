@@ -20,6 +20,7 @@ namespace Project3.Models
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Facility> Facilities { get; set; }
         public virtual DbSet<HeadTask> HeadTasks { get; set; }
+        public virtual DbSet<ReqLog> ReqLogs { get; set; }
         public virtual DbSet<RequestByUser> RequestByUsers { get; set; }
         public virtual DbSet<RequestPriority> RequestPriorities { get; set; }
         public virtual DbSet<RequestStatus> RequestStatuses { get; set; }
@@ -134,6 +135,32 @@ namespace Project3.Models
                     .WithMany(p => p.HeadTasks)
                     .HasForeignKey(d => d.RequestByUserId)
                     .HasConstraintName("FK__head_task__reque__3A81B327");
+            });
+
+            modelBuilder.Entity<ReqLog>(entity =>
+            {
+                entity.ToTable("req_log");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.LogTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("log_time");
+
+                entity.Property(e => e.ReqContent)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("req_content")
+                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+
+                entity.Property(e => e.RequestByUserId).HasColumnName("request_by_user_id");
+
+                entity.Property(e => e.Status)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("status");
+
+                entity.Property(e => e.UserAccountId).HasColumnName("user_account_id");
             });
 
             modelBuilder.Entity<RequestByUser>(entity =>
