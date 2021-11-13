@@ -203,5 +203,35 @@ namespace Project3.Services
                  
     }).ToList();
         }
+
+        public dynamic findHeadTask(int id)
+        {
+            try
+            {
+                IQueryable<HeadTask> a = db.HeadTasks.Where(x => x.RequestByUserId == id);
+                if (a.Sum(a => a.Id) == 0)
+                    return null;
+
+                return a.Select(x => new
+                {
+                    Id = x.Id,
+                    RequestByUserId = x.RequestByUserId,
+                    HeadTaskStatus = x.HeadTaskStatus,
+                    Note = x.Note,
+                    StartDate = x.StartDate,
+                    EndDate = x.EndDate,
+                    HeadAccount = new { 
+                        Id =x.HeadAccount.Id,
+                        Name = x.HeadAccount.Name
+                    }
+
+                });
+
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }

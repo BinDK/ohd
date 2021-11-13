@@ -14,5 +14,6 @@ namespace Project3.Services
         dynamic close(CloseRequest req);
         object Create(createRequestByUserReq req);
         dynamic FindAllAssign();
+        dynamic findHeadTask(int id);
     }
 }

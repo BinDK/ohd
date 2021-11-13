@@ -96,6 +96,26 @@ namespace Project3.Controllers
                 return BadRequest();
             }
         }
+       
+        /*Find request in head task*/
+
+        [HttpGet("myassignment/find/{id}")]
+        [Produces("application/json")]
+        public IActionResult findHeadTask(int id)
+        {
+            try
+            {
+                dynamic a = myRequestService.findHeadTask(id);
+                if (Object.ReferenceEquals(null, a))
+                    return BadRequest();
+                return Ok(a);
+
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
 
     }
 
