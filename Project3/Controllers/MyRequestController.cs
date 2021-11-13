@@ -96,7 +96,6 @@ namespace Project3.Controllers
                 return BadRequest();
             }
         }
-       
         /*Find request in head task*/
 
         [HttpGet("myassignment/find/{id}")]
@@ -105,7 +104,7 @@ namespace Project3.Controllers
         {
             try
             {
-                dynamic a = myRequestService.findHeadTask(id);
+                dynamic a = myRequestService.FindHeadTask(id);
                 if (Object.ReferenceEquals(null, a))
                     return BadRequest();
                 return Ok(a);

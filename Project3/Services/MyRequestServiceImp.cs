@@ -200,11 +200,12 @@ namespace Project3.Services
                 StartDate = x.StartDate,
                 EndDate = x.EndDate,
                 HeadAccountId = x.HeadAccountId
-                 
-    }).ToList();
+
+            }).ToList();
         }
 
-        public dynamic findHeadTask(int id)
+
+        public dynamic FindHeadTask(int id)
         {
             try
             {
@@ -220,8 +221,9 @@ namespace Project3.Services
                     Note = x.Note,
                     StartDate = x.StartDate,
                     EndDate = x.EndDate,
-                    HeadAccount = new { 
-                        Id =x.HeadAccount.Id,
+                    HeadAccount = new
+                    {
+                        Id = x.HeadAccount.Id,
                         Name = x.HeadAccount.Name
                     }
 
