@@ -1,5 +1,6 @@
 ﻿using Project3.Controllers;
 using Project3.Models;
+using Project3.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,6 @@ namespace Project3.Services
         object  Create(createRequestByUserReq req);
         dynamic FindAllAssign();
         dynamic FindHeadTask(int id);
+        dynamic updateMyAssignment(UpdateMyAssignmentRequest req);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project3.Models;
+using Project3.Request;
 using Project3.Services;
 using System;
 using System.Diagnostics;
@@ -117,7 +118,28 @@ namespace Project3.Controllers
             }
         }
 
+        /*
+         * Update assignee for request by user
+         */
 
+        [HttpPut("myassignment/update")]
+        [Produces("application/json")]
+        public IActionResult updateMyAssignment([FromBody] UpdateMyAssignmentRequest req)
+        {
+            try
+            {
+                dynamic a = myRequestService.updateMyAssignment(req);
+                if (a == false)
+                    return BadRequest("Id of request by user not exists");
+                else if (Object.ReferenceEquals(null, a))
+                    return BadRequest();
+                return Ok(a);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 
     public class createRequestByUserReq

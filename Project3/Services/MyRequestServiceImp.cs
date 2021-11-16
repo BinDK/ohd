@@ -2,8 +2,10 @@
 using Microsoft.Extensions.Configuration;
 using Project3.Controllers;
 using Project3.Models;
+using Project3.Request;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -233,6 +235,79 @@ namespace Project3.Services
             catch
             {
                 return null;
+            }
+        }
+
+        public dynamic updateMyAssignment(UpdateMyAssignmentRequest req)
+        {
+            try
+            {
+                IQueryable<HeadTask> a = db.HeadTasks.Where(x => x.RequestByUserId == req.request_by_user_id);
+                if (a.Sum(a => a.Id) == 0)
+                    return false;
+                HeadTask headTask = a.FirstOrDefault();
+                /*
+                 * Finished HeadTask
+                 */
+                headTask.updateMyAssignment(req);
+                db.Entry(headTask).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                db.SaveChanges();
+
+                /*
+                 * Create User_task for assignee
+                 */
+
+                this.createUserTask(req, headTask);
+
+                /*
+                 *  Add log 
+                 */
+                this.addLogWhenUpdateAssignee(req, headTask);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        private void addLogWhenUpdateAssignee(UpdateMyAssignmentRequest req, HeadTask headTask)
+        {
+            ReqLog reqLog = new ReqLog
+            {
+                UserAccountId = headTask.HeadAccountId,
+                LogTime = DateTime.Now,
+                ReqContent = "Request’s assigned",
+                RequestByUserId = req.request_by_user_id,
+                Status = "Assigned"
+            };
+            this.db.ReqLogs.Add(reqLog);
+            this.db.SaveChanges();
+        }
+
+        private void createUserTask(UpdateMyAssignmentRequest req, HeadTask headTask)
+        {
+            try
+            {
+                UserTask userTask = new UserTask
+                {
+                    RequestByUserId = req.request_by_user_id,
+                    UserTaskStatus = "Ongoing",
+                    Note = "",
+                    StartDate = DateTime.Today,
+                    EndDate = null,
+                    HeadTaskId = headTask.Id,
+                    UserAccountId = req.assignee_id
+                };
+                db.Entry(userTask).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                db.SaveChanges();
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
             }
         }
     }
