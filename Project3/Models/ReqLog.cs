@@ -13,5 +13,8 @@ namespace Project3.Models
         public string Status { get; set; }
         public string ReqContent { get; set; }
         public int? UserAccountId { get; set; }
+
+        public virtual RequestByUser RequestByUser { get; set; }
+        public virtual Account UserAccount { get; set; }
     }
 }
