@@ -61,7 +61,7 @@ namespace Project3.Services
 
         public dynamic Check(string username, string email)
         {
-            return db.Accounts.Count(i => i.Username == username && i.Email == email) > 0;
+            return (db.Accounts.Count(i => i.Username == username && i.Email == email)) > 0;
         }
 
         public dynamic FindAllHead()

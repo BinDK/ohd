@@ -11,7 +11,6 @@ namespace Project3.Models
         public RequestByUser()
         {
             HeadTasks = new HashSet<HeadTask>();
-            ReqLogs = new HashSet<ReqLog>();
             UserTasks = new HashSet<UserTask>();
         }
 
@@ -32,7 +31,6 @@ namespace Project3.Models
         public virtual RequestStatus RequestStatus { get; set; }
         public virtual Service Service { get; set; }
         public virtual ICollection<HeadTask> HeadTasks { get; set; }
-        public virtual ICollection<ReqLog> ReqLogs { get; set; }
         public virtual ICollection<UserTask> UserTasks { get; set; }
 
         internal void addRequestNew(createRequestByUserReq req)

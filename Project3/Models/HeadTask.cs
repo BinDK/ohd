@@ -1,5 +1,4 @@
 ﻿using Project3.Controllers;
-using Project3.Request;
 using System;
 using System.Collections.Generic;
 
@@ -34,13 +33,6 @@ namespace Project3.Models
             this.StartDate = DateTime.Today;
             this.EndDate = null;
             this.HeadAccountId = req.Facility.HeadAccountId;
-        }
-
-        internal void updateMyAssignment(UpdateMyAssignmentRequest req)
-        {
-            this.HeadTaskStatus = "Finished";
-            this.Note = req.note;
-            this.EndDate = DateTime.Today;
         }
     }
 }

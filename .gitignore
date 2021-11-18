@@ -2,7 +2,7 @@
 .vs/*
 Project3/obj/*
 Project3/Properties/launchSettings.json
-Project3/bin/
+Project3/bin/*
 Project3/appsettings.json
 Project3/bin/debug/net5.0
 Project3/obj/debug/net5.0

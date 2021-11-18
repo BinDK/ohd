@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project3.Models;
-using Project3.Request;
 using Project3.Services;
 using System;
 using System.Diagnostics;
@@ -84,62 +83,6 @@ namespace Project3.Controllers
             }
         }
 
-        [HttpGet("myassignment/findall")]
-        [Produces("application/json")]
-        public IActionResult FindAllLog()
-        {
-            try
-            {
-                return Ok(myRequestService.FindAllAssign());
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
-
-        /*Find request in head task*/
-
-        [HttpGet("myassignment/find/{id}")]
-        [Produces("application/json")]
-        public IActionResult findHeadTask(int id)
-        {
-            try
-            {
-                dynamic a = myRequestService.FindHeadTask(id);
-                if (Object.ReferenceEquals(null, a))
-                    return BadRequest();
-                return Ok(a);
-
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
-
-        /*
-         * Update assignee for request by user
-         */
-
-        [HttpPut("myassignment/update")]
-        [Produces("application/json")]
-        public IActionResult updateMyAssignment([FromBody] UpdateMyAssignmentRequest req)
-        {
-            try
-            {
-                dynamic a = myRequestService.updateMyAssignment(req);
-                if (a == false)
-                    return BadRequest("Id of request by user not exists");
-                else if (Object.ReferenceEquals(null, a))
-                    return BadRequest();
-                return Ok(a);
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
     }
 
     public class createRequestByUserReq

@@ -11,7 +11,6 @@ namespace Project3.Models
         {
             Facilities = new HashSet<Facility>();
             HeadTasks = new HashSet<HeadTask>();
-            ReqLogs = new HashSet<ReqLog>();
             RequestByUsers = new HashSet<RequestByUser>();
             UserTasks = new HashSet<UserTask>();
         }
@@ -27,8 +26,9 @@ namespace Project3.Models
         public virtual Role Role { get; set; }
         public virtual ICollection<Facility> Facilities { get; set; }
         public virtual ICollection<HeadTask> HeadTasks { get; set; }
-        public virtual ICollection<ReqLog> ReqLogs { get; set; }
         public virtual ICollection<RequestByUser> RequestByUsers { get; set; }
         public virtual ICollection<UserTask> UserTasks { get; set; }
+
+     
     }
 }

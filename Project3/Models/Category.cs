@@ -5,16 +5,16 @@ using System.Collections.Generic;
 
 namespace Project3.Models
 {
-    public partial class RequestStatus
+    public partial class Category
     {
-        public RequestStatus()
+        public Category()
         {
-            RequestByUsers = new HashSet<RequestByUser>();
+            Products = new HashSet<Product>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<RequestByUser> RequestByUsers { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

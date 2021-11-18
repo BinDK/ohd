@@ -28,6 +28,7 @@ namespace Project3.Models
         public virtual DbSet<Service> Services { get; set; }
         public virtual DbSet<UserTask> UserTasks { get; set; }
 
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -162,16 +163,6 @@ namespace Project3.Models
                     .HasColumnName("status");
 
                 entity.Property(e => e.UserAccountId).HasColumnName("user_account_id");
-
-                entity.HasOne(d => d.RequestByUser)
-                    .WithMany(p => p.ReqLogs)
-                    .HasForeignKey(d => d.RequestByUserId)
-                    .HasConstraintName("FK_req_log_request_by_user");
-
-                entity.HasOne(d => d.UserAccount)
-                    .WithMany(p => p.ReqLogs)
-                    .HasForeignKey(d => d.UserAccountId)
-                    .HasConstraintName("FK_req_log_account");
             });
 
             modelBuilder.Entity<RequestByUser>(entity =>
@@ -247,11 +238,6 @@ namespace Project3.Models
                     .IsUnicode(false)
                     .HasColumnName("name")
                     .UseCollation("SQL_Latin1_General_CP1_CI_AS");
-
-                entity.Property(e => e.Status)
-                    .HasMaxLength(250)
-                    .IsUnicode(false)
-                    .HasColumnName("status");
             });
 
             modelBuilder.Entity<RequestStatus>(entity =>
