@@ -86,6 +86,20 @@ namespace Project3.Controllers
             }
         }
 
+        [HttpGet("findAllById/{id}")]
+        [Produces("application/json")]
+        public IActionResult FindAllById(int id)
+        {
+            try
+            {
+                return Ok(serviceService.FindAllById(id));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
 
         [HttpPut("update")]
         [Produces("application/json")]

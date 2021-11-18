@@ -12,6 +12,8 @@ namespace Project3.Services
         public dynamic find(int id);
 
         public dynamic FindAll();
+
+        public dynamic FindAllById(int id);
         public dynamic update(Service ac);
 
         public dynamic Create(Service service);

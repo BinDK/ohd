@@ -19,6 +19,48 @@ namespace Project3
         }
 
         [Produces("application/json")]
+        [HttpGet("account/findByName/{name}")]
+        public IActionResult Finds(string name)
+        {
+            try
+            {
+                return Ok(adminService.FindAllByName(name));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [Produces("application/json")]
+        [HttpGet("account/findByUser/{username}/{name}/{email}")]
+        public IActionResult FindByUser(string username,string name,string email)
+        {
+            try
+            {
+                return Ok(adminService.FindAllByUser(username,name,email));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [Produces("application/json")]
+        [HttpGet("account/findByRole/{role}")]
+        public IActionResult FindById(int role)
+        {
+            try
+            {
+                return Ok(adminService.FindAllByRoles(role));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [Produces("application/json")]
         [HttpGet("account/findall")]
         public IActionResult FindAll()
         {

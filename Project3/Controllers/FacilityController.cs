@@ -30,6 +30,34 @@ namespace Project3.Controllers
             }
         }
 
+        [HttpGet("findallByHead/{id}")]
+        [Produces("application/json")]
+        public IActionResult FindAllByHead(int id)
+        {
+            try
+            {
+                return Ok(facilityService.FindAllByHead(id));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("findallByName/{name}")]
+        [Produces("application/json")]
+        public IActionResult FindAllByHead(string name)
+        {
+            try
+            {
+                return Ok(facilityService.FindAllByName(name));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
 
         [Consumes("application/json")]
         [Produces("application/json")]
