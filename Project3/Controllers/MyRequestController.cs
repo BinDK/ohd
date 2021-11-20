@@ -178,6 +178,9 @@ namespace Project3.Controllers
     {
         private int request_by_user_id;
         private string reason;
+        public string head_task_status { get; set; }
+        public string user_task_status { get; set; }
+        public int request_status_id { get; set; }
 
         public int Request_by_user_id { get => request_by_user_id; set => request_by_user_id = value; }
         public string Reason { get => reason; set => reason = value; }

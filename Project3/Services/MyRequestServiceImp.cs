@@ -84,20 +84,117 @@ namespace Project3.Services
                 if (a.Sum(a => a.Id) == 0)
                     return false;
                 RequestByUser ac = db.RequestByUsers.Find(req.Request_by_user_id);
-                this.updateReasonCloseRequestByUsers(ac, req.Reason);
+                this.updateReasonCloseRequestByUsers(ac, req);
                 db.Entry(ac).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 db.SaveChanges();
+
+                /*
+                 * Send mail for user
+                 */
+
+                Utils.Utils.SendMail(
+                conf["gmail:username"].ToString(),
+                ac.Account.Email,
+                conf["gmail:subject"].ToString(),
+                conf["gmail:userCloseRequest"].ToString(),
+                conf["gmail:username"].ToString(),
+                conf["gmail:password"].ToString());
+
+                /*
+                 * Update table headtask
+                 */
+
+                this.updateTableHeadTaskWhenClose(req,ac);
+
+
+
+                /*
+                 * Update table userTask
+                 */
+
+                this.updatetableUserTaskWhenClose(req, ac);
+                
+
+                /*
+                 * Add log
+                 */
+
+                this.addLogWhenClose(ac, req);
+                
                 return true;
             }
-            catch
+            catch(Exception e)
             {
+                Debug.WriteLine(e.Message);
                 return null;
             }
         }
 
-        private void updateReasonCloseRequestByUsers(RequestByUser ac, string reason)
+        private void updatetableUserTaskWhenClose(CloseRequest req, RequestByUser ac)
         {
-            ac.ReasonCloseRequest = reason;
+            UserTask userTask = db.UserTasks.Where(userTask => userTask.RequestByUserId == req.Request_by_user_id).First();
+            if (userTask != null)
+            {
+                userTask.UserTaskStatus = req.user_task_status;
+                db.Entry(userTask).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                db.SaveChanges();
+
+                /*
+                * Send mail for userTask
+                 */
+
+                Utils.Utils.SendMail(
+                conf["gmail:username"].ToString(),
+                userTask.UserAccount.Email,
+                conf["gmail:subject"].ToString(),
+                String.Format(conf["gmail:userTaskCloseRequest"].ToString(), ac.Account.Name),
+                conf["gmail:username"].ToString(),
+                conf["gmail:password"].ToString());
+            }
+        }
+
+        private void updateTableHeadTaskWhenClose(CloseRequest req, RequestByUser ac)
+        {
+            HeadTask headTasks = db.HeadTasks.Where(headTask => headTask.RequestByUserId == req.Request_by_user_id).First();
+            if (headTasks != null)
+            {
+                headTasks.HeadTaskStatus = req.head_task_status;
+                db.Entry(headTasks).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                db.SaveChanges();
+
+                /*
+                * Send mail for headTask
+                 */
+
+                Utils.Utils.SendMail(
+                conf["gmail:username"].ToString(),
+                headTasks.HeadAccount.Email,
+                conf["gmail:subject"].ToString(),
+                String.Format(conf["gmail:headTaskCloseRequest"].ToString(), ac.Account.Name),
+                conf["gmail:username"].ToString(),
+                conf["gmail:password"].ToString());
+            }
+        }
+
+        private void addLogWhenClose(RequestByUser ac, CloseRequest req)
+        {
+            ReqLog reqLog = new ReqLog
+            {
+                UserAccountId = ac.AccountId,
+                LogTime = DateTime.Now,
+                ReqContent = "Request’s close",
+                RequestByUserId = req.Request_by_user_id,
+                Status = "Close"
+
+            };
+            this.db.ReqLogs.Add(reqLog);
+            this.db.SaveChanges();
+        }
+
+        private void updateReasonCloseRequestByUsers(RequestByUser ac, CloseRequest req)
+        {
+            ac.ReasonCloseRequest = req.Reason;
+            ac.RequestStatusId = req.request_status_id;
         }
 
         public dynamic Create(createRequestByUserReq req)
@@ -206,7 +303,7 @@ namespace Project3.Services
                 .Select(userTask => new {
                     Id = userTask.UserAccount.Id,
                     Name = userTask.UserAccount.Name
-                }).FirstOrDefault()
+                }).FirstOrDefault() 
             }).OrderByDescending(x => x.StartDate).ToList();
         }
 
