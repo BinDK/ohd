@@ -31,7 +31,7 @@ namespace Project3.Models
             this.RequestByUserId = id;
             this.HeadTaskStatus = "Ongoing";
             this.Note = null;
-            this.StartDate = DateTime.Today;
+            this.StartDate = DateTime.Now;
             this.EndDate = null;
             this.HeadAccountId = req.Facility.HeadAccountId;
         }
@@ -40,7 +40,7 @@ namespace Project3.Models
         {
             this.HeadTaskStatus = "Finished";
             this.Note = req.note;
-            this.EndDate = DateTime.Today;
+            this.EndDate = DateTime.Now;
         }
     }
 }
