@@ -191,19 +191,23 @@ namespace Project3.Services
             return req1.Entity;
         }
 
-        public dynamic FindAllAssign()
+        public dynamic FindAllAssign(int id)
         {
-            return db.HeadTasks.Select(x => new
+            return db.HeadTasks.Where(headTask => headTask.HeadAccountId == id).Select(headTask => new
             {
-                Id = x.Id,
-                RequestByUserId = x.RequestByUserId,
-                HeadTaskStatus = x.HeadTaskStatus,
-                Note = x.Note,
-                StartDate = x.StartDate,
-                EndDate = x.EndDate,
-                HeadAccountId = x.HeadAccountId
-
-            }).ToList();
+                Id = headTask.Id,
+                RequestByUserId = headTask.RequestByUserId,
+                HeadTaskStatus = headTask.HeadTaskStatus,
+                Note = headTask.Note,
+                StartDate = headTask.StartDate,
+                EndDate = headTask.EndDate,
+                HeadAccountId = headTask.HeadAccountId,
+                Assignee = db.UserTasks.Where(userTask => userTask.RequestByUserId == headTask.RequestByUserId)
+                .Select(userTask => new {
+                    Id = userTask.UserAccount.Id,
+                    Name = userTask.UserAccount.Name
+                }).FirstOrDefault()
+            }).OrderByDescending(x => x.StartDate).ToList();
         }
 
 
@@ -309,6 +313,21 @@ namespace Project3.Services
             {
                 Debug.WriteLine(e.Message);
             }
+        }
+
+        public dynamic FindReqLog(int id)
+        {
+            return db.ReqLogs.Where(x => x.RequestByUserId == id).Select(x => new
+            {
+                Id = x.Id,
+                RequestByUserId = x.RequestByUserId,
+                LogTime = x.LogTime,
+                ReqConent = x.ReqContent
+                // Asignee = new {
+                // Id = x.UserAccount.Id,
+                // Name = x.UserAccount.Name
+                // }
+            }).OrderByDescending(x => x.LogTime).ToList();
         }
     }
 }

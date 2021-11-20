@@ -84,17 +84,17 @@ namespace Project3.Controllers
             }
         }
 
-        [HttpGet("myassignment/findall")]
+        [HttpGet("myassignment/findall/{id}")]
         [Produces("application/json")]
-        public IActionResult FindAllLog()
+        public IActionResult FindAllHeadTask(int id)
         {
             try
             {
-                return Ok(myRequestService.FindAllAssign());
+                return Ok(myRequestService.FindAllAssign(id));
             }
-            catch
+            catch(Exception e)
             {
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
 
@@ -134,6 +134,20 @@ namespace Project3.Controllers
                 else if (Object.ReferenceEquals(null, a))
                     return BadRequest();
                 return Ok(a);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("findreqlog/{id}")]
+        [Produces("application/json")]
+        public IActionResult FindReqLog(int id)
+        {
+            try
+            {
+                return Ok(myRequestService.FindReqLog(id));
             }
             catch
             {
