@@ -14,6 +14,10 @@ namespace Project3.Services
         public void Delete(int id);
         public dynamic FindAll();
 
+        public dynamic FindAllByHead(int id);
+
+        public dynamic FindAllByName(string name);
+
         public dynamic update(Facility fa);
 
         public bool NameCheck(string name);

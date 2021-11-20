@@ -16,6 +16,22 @@ namespace Project3.Services
             this.db = db;
         }
 
+        public dynamic FindAllById(int id)
+        {
+            return db.Services.Where(a => a.FacilityId == id).Select(x => new
+            {
+                id = x.Id,
+                name = x.Name,
+                facilityId = x.FacilityId,
+                facility = new
+                {
+                    x.Facility.Id,
+                    x.Facility.Name
+                },
+                description = x.Description
+            }).ToList();
+        }
+
         public dynamic Create(Service service)
         {
             if (Check(service.Id, service.Name))

@@ -18,6 +18,37 @@ namespace Project3.Services
             this.db = db;
         }
 
+        public dynamic FindAllByName(string name)
+        {
+            return db.Accounts.Where(a => a.Name == name).Select(x => new
+            {
+                id = x.Id,
+                name = x.Name,
+                email = x.Email,
+                username = x.Username,
+                roleId = x.RoleId,
+                role = new { id = x.RoleId, name = x.Role.Name },
+                status = x.Status
+
+            }).ToList();
+        }
+
+        public dynamic FindAllByRoles(int role)
+        {
+            return db.Accounts.Where(a => a.RoleId == role).Select(x => new
+            {
+                id = x.Id,
+                name = x.Name,
+                email = x.Email,
+                username = x.Username,
+                roleId = x.RoleId,
+                role = new { id = x.RoleId, name = x.Role.Name },
+                status = x.Status
+
+            }).ToList();
+        }
+
+
         public dynamic listAccount()
         {
             return db.Accounts.Select(x => new
@@ -132,6 +163,21 @@ namespace Project3.Services
             {
                 return null;
             }
+        }
+
+        public dynamic FindAllByUser(string username, string name, string email)
+        {
+            return db.Accounts.Where(a => a.Username == username && a.Name == name && a.Email == email).Select(x => new
+            {
+                id = x.Id,
+                name = x.Name,
+                email = x.Email,
+                username = x.Username,
+                roleId = x.RoleId,
+                role = new { id = x.RoleId, name = x.Role.Name },
+                status = x.Status
+
+            }).ToList();
         }
     }
 }
