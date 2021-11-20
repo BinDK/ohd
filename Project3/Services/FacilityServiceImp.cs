@@ -105,5 +105,38 @@ namespace Project3.Services
                 return null;
             }
         }
+
+        public dynamic FindAllByHead(int id)
+        {
+            return db.Facilities.Where(a => a.HeadAccountId == id).Select(f => new
+            {
+                id = f.Id,
+                name = f.Name,
+                headAccountId = f.HeadAccountId,
+                head = new
+                {
+                    id = f.HeadAccount.Id,
+                    name = f.HeadAccount.Name
+                },
+                description = f.Description
+
+            }).ToList();
+        }
+        public dynamic FindAllByName(string name)
+        {
+            return db.Facilities.Where(a => a.Name == name).Select(f => new
+            {
+                id = f.Id,
+                name = f.Name,
+                headAccountId = f.HeadAccountId,
+                head = new
+                {
+                    id = f.HeadAccount.Id,
+                    name = f.HeadAccount.Name
+                },
+                description = f.Description
+
+            }).ToList(); 
+        }
     }
 }

@@ -17,5 +17,11 @@ namespace Project3.Services
         public dynamic updateAccount(Account ac);
         public dynamic Check(string username, string email);
         public dynamic FindAllHead();
+        public dynamic FindAllByName(string name);
+        public dynamic FindAllByRoles(int role);
+
+        public dynamic FindAllByUser(string username,string name, string email);
+
+
     }
 }
