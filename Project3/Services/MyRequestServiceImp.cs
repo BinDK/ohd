@@ -343,10 +343,11 @@ namespace Project3.Services
         {
             try
             {
-                IQueryable<HeadTask> a = db.HeadTasks.Where(x => x.RequestByUserId == req.request_by_user_id);
-                if (a.Sum(a => a.Id) == 0)
+
+
+                HeadTask headTask = db.HeadTasks.FirstOrDefault(x => x.RequestByUserId == req.request_by_user_id);
+                if (headTask is null)
                     return false;
-                HeadTask headTask = a.FirstOrDefault();
                 /*
                  * Finished HeadTask
                  */
@@ -402,7 +403,7 @@ namespace Project3.Services
                     HeadTaskId = headTask.Id,
                     UserAccountId = req.assignee_id
                 };
-                db.Entry(userTask).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                db.UserTasks.Add(userTask);
                 db.SaveChanges();
 
             }
