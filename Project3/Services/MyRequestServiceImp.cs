@@ -119,7 +119,7 @@ namespace Project3.Services
                  * Add log
                  */
 
-                this.addLogWhenClose(ac, req);
+               this.addLogWhenClose(ac, req);
                 
                 return true;
             }
@@ -397,7 +397,7 @@ namespace Project3.Services
                     RequestByUserId = req.request_by_user_id,
                     UserTaskStatus = "Ongoing",
                     Note = "",
-                    StartDate = DateTime.Today,
+                    StartDate = DateTime.Now,
                     EndDate = null,
                     HeadTaskId = headTask.Id,
                     UserAccountId = req.assignee_id
