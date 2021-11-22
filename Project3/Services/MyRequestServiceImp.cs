@@ -106,7 +106,11 @@ namespace Project3.Services
 
                 this.updateTableHeadTaskWhenClose(req,ac);
 
+                /*
+                 * Add log
+                 */
 
+                this.addLogWhenClose(ac, req);
 
                 /*
                  * Update table userTask
@@ -115,11 +119,7 @@ namespace Project3.Services
                 this.updatetableUserTaskWhenClose(req, ac);
                 
 
-                /*
-                 * Add log
-                 */
-
-               this.addLogWhenClose(ac, req);
+                
                 
                 return true;
             }
@@ -133,8 +133,8 @@ namespace Project3.Services
         private void updatetableUserTaskWhenClose(CloseRequest req, RequestByUser ac)
         {
             UserTask userTask = db.UserTasks.Where(userTask => userTask.RequestByUserId == req.Request_by_user_id).First();
-            if (userTask != null)
-            {
+            if (userTask is null)
+                return;
                 userTask.UserTaskStatus = req.user_task_status;
                 db.Entry(userTask).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 db.SaveChanges();
@@ -150,7 +150,7 @@ namespace Project3.Services
                 String.Format(conf["gmail:userTaskCloseRequest"].ToString(), ac.Account.Name),
                 conf["gmail:username"].ToString(),
                 conf["gmail:password"].ToString());
-            }
+            
         }
 
         private void updateTableHeadTaskWhenClose(CloseRequest req, RequestByUser ac)
