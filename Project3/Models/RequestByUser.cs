@@ -1,4 +1,5 @@
 ﻿using Project3.Controllers;
+using Project3.Request;
 using System;
 using System.Collections.Generic;
 
@@ -46,6 +47,11 @@ namespace Project3.Models
             this.AccountId = req.Account_id;
             this.FacilityId = req.Facility.Id;
             this.ReasonCloseRequest = null;
+        }
+        internal void updateRequestByUser(FinishRequest finishRequest)
+        {
+            this.RequestStatusId = 3;
+            this.EndDate = DateTime.Today;
         }
     }
 }

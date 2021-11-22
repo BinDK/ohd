@@ -35,12 +35,12 @@ namespace Project3
         }
 
         [Produces("application/json")]
-        [HttpGet("account/findByUser/{username}/{name}/{email}")]
-        public IActionResult FindByUser(string username,string name,string email)
+        [HttpGet("account/findByUser/{username}")]
+        public IActionResult FindByUser(string username)
         {
             try
             {
-                return Ok(adminService.FindAllByUser(username,name,email));
+                return Ok(adminService.FindAllByUser(username));
             }
             catch
             {

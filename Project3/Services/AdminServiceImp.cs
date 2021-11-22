@@ -20,7 +20,7 @@ namespace Project3.Services
 
         public dynamic FindAllByName(string name)
         {
-            return db.Accounts.Where(a => a.Name == name).Select(x => new
+            return db.Accounts.Where(a => a.Name.Contains(name)).Select(x => new
             {
                 id = x.Id,
                 name = x.Name,
@@ -35,7 +35,7 @@ namespace Project3.Services
 
         public dynamic FindAllByRoles(int role)
         {
-            return db.Accounts.Where(a => a.RoleId == role).Select(x => new
+             return db.Accounts.Where(a => a.RoleId == role).Select(x => new
             {
                 id = x.Id,
                 name = x.Name,
@@ -165,9 +165,11 @@ namespace Project3.Services
             }
         }
 
-        public dynamic FindAllByUser(string username, string name, string email)
+        public dynamic FindAllByUser(string username)
         {
-            return db.Accounts.Where(a => a.Username == username && a.Name == name && a.Email == email).Select(x => new
+         
+
+            return db.Accounts.Where(a => a.Username.Contains(username) || a.Name.Contains(username) || a.Email.Contains(username)).Select(x => new
             {
                 id = x.Id,
                 name = x.Name,

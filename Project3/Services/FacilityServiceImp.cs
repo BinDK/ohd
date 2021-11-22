@@ -124,7 +124,7 @@ namespace Project3.Services
         }
         public dynamic FindAllByName(string name)
         {
-            return db.Facilities.Where(a => a.Name == name).Select(f => new
+            return db.Facilities.Where(a => a.Name.Contains(name)).Select(f => new
             {
                 id = f.Id,
                 name = f.Name,

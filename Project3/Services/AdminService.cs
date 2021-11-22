@@ -20,7 +20,7 @@ namespace Project3.Services
         public dynamic FindAllByName(string name);
         public dynamic FindAllByRoles(int role);
 
-        public dynamic FindAllByUser(string username,string name, string email);
+        public dynamic FindAllByUser(string username);
 
 
     }

@@ -1,4 +1,5 @@
 ﻿using Project3.Models;
+using Project3.Request;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,21 +22,17 @@ namespace Project3.Services
         {
             return db.UserTasks.Where(a => a.Id == id).Select(f => new
             {
-                facility = f.UserAccount.Facilities,
-                service = f.RequestByUser.Service,
-                status = f.UserAccount.Status,
+
                 description = f.Note,
                 startDate = f.StartDate
             });
         }
 
-        public dynamic FindAllTask()
+        public dynamic FindAllTask(int id)
         {
-            return db.UserTasks.Select(f => new
+            return db.UserTasks.Where(a => a.UserAccountId == id).Select(f => new
             {
-                facility = f.UserAccount.Facilities,
-                service = f.RequestByUser.Service,
-                status = f.UserAccount.Status,
+                status = f.UserTaskStatus,
                 description = f.Note,
                 startDate = f.StartDate
 
@@ -65,16 +62,42 @@ namespace Project3.Services
             return userTask;
         }
 
-        public dynamic UpdateTask2(UserTask userTask)
+        public dynamic UpdateTask2(FinishRequest finishRequest)
         {
             try
             {
-                IQueryable<UserTask> a = db.UserTasks.Where(x => x.Id == userTask.Id);
+                IQueryable<RequestByUser> a = db.RequestByUsers.Where(x => x.Id == finishRequest.request_by_user_id);
                 if (a.Sum(x => x.Id) == 0)
                     return false;
-      /*          userTask.EndDate = DateTime.Now;
-                userTask.UserTaskStatus = "Finished";*/
-                db.Entry(userTask).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+                RequestByUser requestByUser = a.FirstOrDefault();
+                // finish user_task
+                requestByUser.updateRequestByUser(finishRequest);
+
+                db.Entry(requestByUser).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                db.SaveChanges();
+                // update user task
+                this.UpdateUserTask(finishRequest);
+
+                // add log
+               /* this.addLog(finishRequest);*/
+                return true;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public dynamic UpdateUserTask(FinishRequest finishRequest)
+        {
+            try
+            {
+                IQueryable<UserTask> a = db.UserTasks.Where(x => x.RequestByUserId == finishRequest.request_by_user_id);
+                if (a.Sum(x => x.RequestByUserId) == 0)
+                    return false;
+
+                db.Entry(finishRequest).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 db.SaveChanges();
                 return true;
             }
@@ -83,6 +106,30 @@ namespace Project3.Services
                 return null;
             }
         }
+
+        public void addLog(FinishRequest finishRequest, UserTask userTask)
+        {
+            try
+            {
+                ReqLog reqLog = new ReqLog
+                {
+                    UserAccountId = userTask.UserAccountId,
+                    LogTime = DateTime.Now,
+                    ReqContent = "Request’s has been finished",
+                    RequestByUserId = userTask.RequestByUserId,
+                    Status = "Finnished"
+                };
+                db.Entry(userTask).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                db.SaveChanges();
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
+
+
 
         public UserTask FindTaskById(string id)
         {
@@ -96,7 +143,7 @@ namespace Project3.Services
                 IQueryable<UserTask> a = db.UserTasks.Where(x => x.Id == userTask.Id);
                 if (a.Sum(x => x.Id) == 0)
                     return false;
-                
+
                 db.Entry(userTask).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 db.SaveChanges();
                 return true;

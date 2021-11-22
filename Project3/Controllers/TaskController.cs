@@ -20,12 +20,12 @@ namespace Project3.Controllers
         }
 
         [Produces("application/json")]
-        [HttpGet("findAll")]
-        public IActionResult FindAllTask()
+        [HttpGet("findAllTask/{id}")]
+        public IActionResult FindAllTask(int id)
         {
             try
             {
-                return Ok(taskService.FindAllTask());
+                return Ok(taskService.FindAllTask(id));
             }
             catch (Exception e)
             {
@@ -85,7 +85,7 @@ namespace Project3.Controllers
         }
         [Consumes("application/json")]
         [Produces("application/json")]
-        [HttpPut("update")]
+        [HttpPut("update2")]
         public IActionResult updateTask2([FromBody] UserTask userTask)
         {
             try
