@@ -83,15 +83,13 @@ namespace Project3.Controllers
                 return BadRequest();
             }
         }
-        [Consumes("application/json")]
-        [Produces("application/json")]
-        [HttpPut("update2")]
-        public IActionResult updateTask2([FromBody] UserTask userTask)
+         [Produces("application/json")]
+        [HttpPut("update")]
+        public IActionResult updateTask2([FromBody] FinishRequest finishRequest)
         {
             try
             {
-
-                dynamic a = taskService.UpdateTask2(userTask);
+                dynamic a = taskService.UpdateTask2(finishRequest);
                 if (a == false)
                     return BadRequest("Id of task not exists");
                 else if (Object.ReferenceEquals(null, a))
