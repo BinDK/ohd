@@ -24,7 +24,8 @@ namespace Project3.Services
             {
 
                 description = f.Note,
-                startDate = f.StartDate
+                startDate = f.StartDate,
+                headtask = f.HeadTask
             });
         }
 
@@ -34,7 +35,8 @@ namespace Project3.Services
             {
                 status = f.UserTaskStatus,
                 description = f.Note,
-                startDate = f.StartDate
+                startDate = f.StartDate,
+                headtask = f.HeadTask
 
             }).ToList();
         }
@@ -113,45 +115,9 @@ namespace Project3.Services
                 return null;
             }
         }
-        public dynamic UpdateUserTask(FinishRequest finishRequest)
-        {
-            try
-            {
-                IQueryable<UserTask> a = db.UserTasks.Where(x => x.RequestByUserId == finishRequest.request_by_user_id);
-                if (a.Sum(x => x.RequestByUserId) == 0)
-                    return false;
+       
 
-                db.Entry(finishRequest).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                db.SaveChanges();
-                return true;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        public void addLog(FinishRequest finishRequest, UserTask userTask)
-        {
-            try
-            {
-                ReqLog reqLog = new ReqLog
-                {
-                    UserAccountId = userTask.UserAccountId,
-                    LogTime = DateTime.Now,
-                    ReqContent = "Request’s has been finished",
-                    RequestByUserId = userTask.RequestByUserId,
-                    Status = "Finnished"
-                };
-                db.Entry(userTask).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                db.SaveChanges();
-
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-            }
-        }
+      
 
 
 
