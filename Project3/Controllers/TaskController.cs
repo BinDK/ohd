@@ -105,12 +105,12 @@ namespace Project3.Controllers
         [Consumes("application/json")]
         [Produces("application/json")]
         [HttpPut("changeimplementor")]
-        public IActionResult update([FromBody] UserTask userTask)
+        public IActionResult update([FromBody] ChangeImplementor changeImplementor)
         {
             try
             {
 
-                dynamic a = taskService.UpdateImplementor(userTask);
+                dynamic a = taskService.UpdateImplementor(changeImplementor);
                 if (a == false)
                     return BadRequest("Fail");
                 else if (Object.ReferenceEquals(null, a))

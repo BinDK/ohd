@@ -126,16 +126,31 @@ namespace Project3.Services
             return db.UserTasks.Find(id);
         }
 
-        public dynamic UpdateImplementor(UserTask userTask)
+        public dynamic UpdateImplementor(ChangeImplementor changeImplementor)
         {
             try
             {
-                IQueryable<UserTask> a = db.UserTasks.Where(x => x.Id == userTask.Id);
-                if (a.Sum(x => x.Id) == 0)
+                IQueryable<UserTask> a = db.UserTasks.Where(x => x.RequestByUserId == changeImplementor.Id);
+                if (a.Sum(x => x.RequestByUserId) == 0)
                     return false;
 
+                UserTask userTask = a.FirstOrDefault();
+                userTask.UserAccountId = changeImplementor.Assignee_id;
+
                 db.Entry(userTask).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+                ReqLog reqLog = new ReqLog
+                {
+                    UserAccountId = userTask.UserAccountId,
+                    LogTime = DateTime.Now,
+                    ReqContent = "Request’s has been been re-assigned ",
+                    RequestByUserId = changeImplementor.Id,
+                    Status = "Assigned"
+                };
+                this.db.ReqLogs.Add(reqLog);
+
                 db.SaveChanges();
+
                 return true;
             }
             catch
